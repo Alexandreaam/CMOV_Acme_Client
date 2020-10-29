@@ -54,7 +54,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/signup_text"
+                android:text="@string/signin_text"
                 android:textSize="24sp" />
 
             <Space
@@ -63,15 +63,15 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/registerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="loginFunction"
-                android:text="@string/login_button" />
+                android:onClick="fullRegistry"
+                android:text="@string/register_text" />
 
         </LinearLayout>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/login_frag"
             android:name="com.acme_industries.acmecaf.simpleLogin"
             android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:onClick="fullRegistry"
+            android:onClick="loginFunction"
             android:text="@string/continue_button" />
 
     </LinearLayout>

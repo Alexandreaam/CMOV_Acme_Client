@@ -27,4 +27,9 @@
     <string name="voucher_title">My Vouchers</string>
     <string name="user_title">Profile</string>
     <string name="home_title">My Order</string>
+    <string name="prod_name">Product Name</string>
+    <string name="product_price">xx.xx€</string>
+    <string name="confirm_order_butt">Confirm Order</string>
+    <string name="register_text">Register</string>
+    <string name="signin_text">Sign in</string>
 </resources>
