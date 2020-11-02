@@ -34,32 +34,34 @@ class RegistryPage : AppCompatActivity() {
         val creditDebit = findViewById<EditText>(R.id.editTextCreditDebit).text.toString()
         val NIF = findViewById<EditText>(R.id.editTextNIF).text.toString()
 
+        val pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
+
         when {
             username == "" -> {
-                editTextUser2.setBackgroundResource(R.drawable.edit_text_error)
+                editTextUser2.error = "This field can't be empty"
             }
             password == "" -> {
-                editTextPass2.setBackgroundResource(R.drawable.edit_text_error)
+                editTextPass2.error = "This field can't be empty"
             }
             passwordConfirm == "" -> {
-                editTextPassCheck.setBackgroundResource(R.drawable.edit_text_error)
+                editTextPassCheck.error = "This field can't be empty"
             }
             realName == "" -> {
-                editTextRealName.setBackgroundResource(R.drawable.edit_text_error)
+                editTextRealName.error = "This field can't be empty"
             }
             creditDebit == "" -> {
-                editTextCreditDebit.setBackgroundResource(R.drawable.edit_text_error)
+                editTextCreditDebit.error = "This field can't be empty"
             }
             NIF == "" -> {
-                editTextNIF.setBackgroundResource(R.drawable.edit_text_error)
+                editTextNIF.error = "This field can't be empty"
+            }
+            !password.matches(pattern) -> {
+                editTextPass2.error = "Must contain at least 8 characters with one number, one lowercase, one uppercase and a special character"
             }
             password != passwordConfirm -> {
-                pass_warning.visibility = View.VISIBLE
-                editTextPass2.setBackgroundResource(R.drawable.edit_text_error)
-                editTextPassCheck.setBackgroundResource(R.drawable.edit_text_error)
-                editTextPass2.setTextColor(Color.parseColor("#FF0000"))
-                editTextPassCheck.setTextColor(Color.parseColor("#FF0000"))
-
+                // pass_warning.visibility = View.VISIBLE
+                editTextPass2.error = "Password does not match"
+                editTextPassCheck.error = "Password does not match"
             }
             else -> {
                 val intent = Intent(this, MainActivityPage::class.java).apply {
