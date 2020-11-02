@@ -44,6 +44,15 @@
         android:inputType="text|textPassword" />
 
     <TextView
+        android:id="@+id/pass_warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/pass_warning_text"
+        android:textColor="#E40707"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

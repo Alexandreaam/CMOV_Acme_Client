@@ -32,4 +32,5 @@
     <string name="confirm_order_butt">Confirm Order</string>
     <string name="register_text">Register</string>
     <string name="signin_text">Sign in</string>
+    <string name="pass_warning_text">Password does not match</string>
 </resources>
