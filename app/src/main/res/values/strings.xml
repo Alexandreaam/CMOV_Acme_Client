@@ -19,11 +19,11 @@
     <string name="signup_dif_text">Login Information</string>
     <string name="confirm_pass_hint">Confirm Password</string>
     <string name="title_activity_main_page">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Menu</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_voucher">Vouchers</string>
-    <string name="title_user">User</string>
+    <string name="title_user">Profile</string>
     <string name="voucher_title">My Vouchers</string>
     <string name="user_title">Profile</string>
     <string name="home_title">My Order</string>
