@@ -1,15 +1,25 @@
-package com.acme_industries.acmecaf
+package com.acme_industries.acmecaf.ui.login
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import android.view.View
 import android.widget.EditText
+import com.acme_industries.acmecaf.MainActivityPage
+import com.acme_industries.acmecaf.R
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_register_data.*
-import kotlinx.android.synthetic.main.fragment_simple_login.*
+import org.json.JSONObject
+import java.security.KeyPair
+import java.security.KeyPairGenerator
 
 class RegistryPage : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -24,6 +34,25 @@ class RegistryPage : AppCompatActivity() {
         val prevPass = intent.getStringExtra("pass")
         editName.setText(prevUser)
         editPassword.setText(prevPass)
+    }
+
+    private fun keyGen(): KeyPair? {
+
+        val kpg: KeyPairGenerator = KeyPairGenerator.getInstance(
+                KeyProperties.KEY_ALGORITHM_RSA,
+                "AndroidKeyStore"
+        )
+        val parameterSpec: KeyGenParameterSpec = KeyGenParameterSpec.Builder(
+                "keyPair",
+                KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
+        ).run {
+            setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+            build()
+        }
+
+        kpg.initialize(parameterSpec)
+
+        return kpg.generateKeyPair()
     }
 
     fun loginFunction(view: View) {
@@ -64,16 +93,36 @@ class RegistryPage : AppCompatActivity() {
                 editTextPassCheck.error = "Password does not match"
             }
             else -> {
-                val intent = Intent(this, MainActivityPage::class.java).apply {
-                    putExtra("user", username)
-                    putExtra("pass", password)
-                }
-                startActivity(intent)
+
+                createUser(username, password, realName, creditDebit, NIF)
             }
         }
+    }
+    private fun createUser(username: String, password: String, realName: String, creditDebit: String, NIF: String) {
+        val kp = keyGen()
+        val url = "http://10.0.2.2:3000/users"
+        val registerMessage = JSONObject()
+        registerMessage.put("username",username)
+        registerMessage.put( "password",password)
+        registerMessage.put("fullname",realName)
+        registerMessage.put("creditcard",creditDebit)
+        registerMessage.put("nif",NIF)
 
+        val queue = Volley.newRequestQueue(this)
 
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, registerMessage,
+                { response ->
+                    // Display the first 500 characters of the response string.
+                    println("Response is: $response")
+                },
+                { error ->
+                    println("That didn't work: $error")
+                })
 
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest)
 
+        val intent = Intent(this, MainActivityPage::class.java).apply { }
+        startActivity(intent)
     }
 }

@@ -1,10 +1,12 @@
-package com.acme_industries.acmecaf
+package com.acme_industries.acmecaf.ui.login
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.acme_industries.acmecaf.MainActivityPage
+import com.acme_industries.acmecaf.R
 
 class LoginPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
