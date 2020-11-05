@@ -1,12 +1,16 @@
 package com.acme_industries.acmecaf.ui.login
 
 import android.content.Intent
+import android.icu.util.Calendar
+import android.icu.util.GregorianCalendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import com.acme_industries.acmecaf.MainActivityPage
 import com.acme_industries.acmecaf.R
 import com.android.volley.Request
@@ -15,8 +19,10 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_register_data.*
 import org.json.JSONObject
+import java.math.BigInteger
 import java.security.KeyPair
 import java.security.KeyPairGenerator
+import javax.security.auth.x500.X500Principal
 
 class RegistryPage : AppCompatActivity() {
 
@@ -38,15 +44,25 @@ class RegistryPage : AppCompatActivity() {
 
     private fun keyGen(): KeyPair? {
 
+        val start = GregorianCalendar()
+        val end = GregorianCalendar()
+        end.add(Calendar.YEAR, 30)
+        val keyAlias = "keyPair"
+
         val kpg: KeyPairGenerator = KeyPairGenerator.getInstance(
                 KeyProperties.KEY_ALGORITHM_RSA,
                 "AndroidKeyStore"
         )
         val parameterSpec: KeyGenParameterSpec = KeyGenParameterSpec.Builder(
-                "keyPair",
+                keyAlias,
                 KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
         ).run {
             setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+            setCertificateNotBefore(start.time)
+            setCertificateNotAfter(end.time)
+            setCertificateSerialNumber(BigInteger.valueOf(12345678))
+            setKeySize(512)
+            setCertificateSubject(X500Principal("CN=$keyAlias"))
             build()
         }
 
@@ -93,17 +109,17 @@ class RegistryPage : AppCompatActivity() {
                 editTextPassCheck.error = "Password does not match"
             }
             else -> {
-
                 createUser(username, password, realName, creditDebit, NIF)
             }
         }
     }
+
     private fun createUser(username: String, password: String, realName: String, creditDebit: String, NIF: String) {
         val kp = keyGen()
         val url = "http://10.0.2.2:3000/users"
         val registerMessage = JSONObject()
         registerMessage.put("username",username)
-        registerMessage.put( "password",password)
+        registerMessage.put("password",password)
         registerMessage.put("fullname",realName)
         registerMessage.put("creditcard",creditDebit)
         registerMessage.put("nif",NIF)
@@ -114,15 +130,24 @@ class RegistryPage : AppCompatActivity() {
                 { response ->
                     // Display the first 500 characters of the response string.
                     println("Response is: $response")
+
+                    if(response.has("usernameTaken") && response.get("usernameTaken") == "True") {
+                        println("Sad")
+                        editTextUser2.error = "Username already taken!"
+                    }
+                    else if (response.has("username") && (response.get("username") == username)){
+                        val intent = Intent(this, MainActivityPage::class.java).apply { }
+                        startActivity(intent)
+                    }
                 },
                 { error ->
                     println("That didn't work: $error")
+                    Toast.makeText(this, R.string.server_error, Toast.LENGTH_LONG).show()
                 })
 
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest)
 
-        val intent = Intent(this, MainActivityPage::class.java).apply { }
-        startActivity(intent)
+
     }
 }
