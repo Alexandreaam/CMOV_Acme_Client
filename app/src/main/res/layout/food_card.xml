@@ -17,9 +17,10 @@
         android:clipToPadding="false"
         app:cardCornerRadius="20dp"
         app:cardElevation="5dp"
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -28,78 +29,89 @@
             android:layout_height="match_parent"
             android:padding="5dp">
 
-            <ImageView
+            <com.rishabhharit.roundedimageview.RoundedImageView
                 android:id="@+id/prod_img"
-                android:layout_width="100dp"
-                android:layout_height="105dp"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
                 android:contentDescription="@string/home_title"
+                app:cornerRadius="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/coffee" />
+                app:roundedCorners="topLeft|bottomLeft"
+                app:srcCompat="@drawable/main_icon" />
 
             <TextView
                 android:id="@+id/prod_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="24dp"
                 android:fontFamily="@font/montserratsemibold"
                 android:text="@string/prod_name"
                 android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toTopOf="@+id/prod_price"
-                app:layout_constraintEnd_toStartOf="@+id/prod_quant"
-                app:layout_constraintHorizontal_bias="0.223"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/add_butt"
                 app:layout_constraintStart_toEndOf="@+id/prod_img"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.682" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/prod_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginBottom="2dp"
                 android:fontFamily="@font/montserratregular"
                 android:text="@string/product_price"
                 android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/prod_quant"
-                app:layout_constraintHorizontal_bias="0.163"
                 app:layout_constraintStart_toEndOf="@+id/prod_img" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/rem_butt"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="6dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.789"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/prod_quant"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@android:drawable/arrow_down_float" />
+                app:srcCompat="@drawable/minus" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/add_butt"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                app:layout_constraintBottom_toTopOf="@+id/prod_quant"
-                app:layout_constraintEnd_toEndOf="@+id/prod_quant"
-                app:layout_constraintHorizontal_bias="0.4"
-                app:layout_constraintStart_toStartOf="@+id/prod_quant"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.384"
-                app:srcCompat="@android:drawable/arrow_up_float" />
+                app:srcCompat="@drawable/add" />
 
             <TextView
                 android:id="@+id/prod_quant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="26dp"
                 android:fontFamily="@font/montserratbold"
                 android:text="0"
                 android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/rem_butt"
-                app:layout_constraintStart_toStartOf="@+id/rem_butt"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/rem_butt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_butt" />
+
+            <TextView
+                android:id="@+id/prod_desc"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="24dp"
+                android:text="@string/prod_desc"
+                app:layout_constraintBottom_toTopOf="@+id/prod_price"
+                app:layout_constraintEnd_toStartOf="@+id/add_butt"
+                app:layout_constraintStart_toEndOf="@+id/prod_img"
+                app:layout_constraintTop_toBottomOf="@+id/prod_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -35,4 +35,5 @@
     <string name="pass_warning_text">Password does not match</string>
     <string name="username_taken">Username already taken!</string>
     <string name="server_error">Something went wrong, try again later</string>
+    <string name="prod_desc">Product Description</string>
 </resources>
