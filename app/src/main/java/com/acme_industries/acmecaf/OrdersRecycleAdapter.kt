@@ -1,6 +1,7 @@
 package com.acme_industries.acmecaf
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,8 @@ class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<R
             itemDetail.text = product.details
             itemPrice.text = product.price
             itemQuantity.text = product.quantity.toString()
+            removeButton.setColorFilter(Color.argb(150,200,200,200));
+            removeButton.tag = "grayed";
             Glide.with(itemView)
                     .load(serverAdd + product.image)
                     .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true))
@@ -44,11 +47,17 @@ class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<R
             addButton.setOnClickListener {
                 product.quantity += 1
                 itemQuantity.text = product.quantity.toString()
+                removeButton.colorFilter = null;
+
             }
             removeButton.setOnClickListener {
                 if(product.quantity > 0) {
                     product.quantity -= 1
                     itemQuantity.text = product.quantity.toString()
+                    if(product.quantity == 0) {
+                        removeButton.setColorFilter(Color.argb(150,200,200,200));
+                        removeButton.tag = "grayed";
+                    }
                 }
             }
         }
