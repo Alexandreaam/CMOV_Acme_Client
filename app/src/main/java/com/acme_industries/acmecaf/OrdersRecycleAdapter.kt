@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.acme_industries.acmecaf.core.Constants
 import com.acme_industries.acmecaf.core.Product
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -29,7 +30,6 @@ class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<R
         var itemQuantity: TextView = itemView.findViewById(R.id.prod_quant)
         private var addButton: ImageView = itemView.findViewById(R.id.add_butt)
         private var removeButton: ImageView = itemView.findViewById(R.id.rem_butt)
-        var serverAdd = "http://10.0.2.2:3000/"
 
         fun bind (product: Product) {
 
@@ -40,7 +40,7 @@ class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<R
             removeButton.setColorFilter(Color.argb(150,200,200,200));
             removeButton.tag = "grayed";
             Glide.with(itemView)
-                    .load(serverAdd + product.image)
+                    .load(Constants.serverUrl + product.image)
                     .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true))
                     .into(itemImage)
 

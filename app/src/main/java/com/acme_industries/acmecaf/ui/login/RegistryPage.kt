@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.acme_industries.acmecaf.MainActivityPage
 import com.acme_industries.acmecaf.R
+import com.acme_industries.acmecaf.core.Constants.Companion.serverUrl
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -51,7 +52,7 @@ class RegistryPage : AppCompatActivity() {
         val passwordConfirm = findViewById<EditText>(R.id.editTextPassCheck).text.toString()
         val realName = findViewById<EditText>(R.id.editTextRealName).text.toString()
         val creditDebit = findViewById<EditText>(R.id.editTextCreditDebit).text.toString()
-        val NIF = findViewById<EditText>(R.id.editTextNIF).text.toString()
+        val nif = findViewById<EditText>(R.id.editTextNIF).text.toString()
 
         val pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
 
@@ -71,37 +72,35 @@ class RegistryPage : AppCompatActivity() {
             creditDebit == "" -> {
                 editTextCreditDebit.error = "This field can't be empty"
             }
-            NIF == "" -> {
+            nif == "" -> {
                 editTextNIF.error = "This field can't be empty"
             }
             !password.matches(pattern) -> {
                 editTextPass2.error = "Must contain at least 8 characters with one number, one lowercase, one uppercase and a special character"
             }
             password != passwordConfirm -> {
-                // pass_warning.visibility = View.VISIBLE
                 editTextPass2.error = "Password does not match"
                 editTextPassCheck.error = "Password does not match"
             }
             else -> {
-                createUser(username, password, realName, creditDebit, NIF)
+                createUser(username, password, realName, creditDebit, nif)
             }
         }
     }
 
-    private fun createUser(username: String, password: String, realName: String, creditDebit: String, NIF: String) {
-        val url = "http://10.0.2.2:3000/users"
+    private fun createUser(username: String, password: String, realName: String, creditDebit: String, nif: String) {
+        val url = serverUrl + "users"
         val registerMessage = JSONObject()
         registerMessage.put("username", username)
         registerMessage.put("password", password)
         registerMessage.put("fullname", realName)
         registerMessage.put("creditcard", creditDebit)
-        registerMessage.put("nif", NIF)
+        registerMessage.put("nif", nif)
 
         val queue = Volley.newRequestQueue(this)
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, registerMessage,
                 { response ->
-                    // Display the first 500 characters of the response string.
                     println("Response is: $response")
 
                     if (response.has("usernameTaken") && response.get("usernameTaken") == "True") {
@@ -115,7 +114,6 @@ class RegistryPage : AppCompatActivity() {
                     Toast.makeText(this, R.string.server_error, Toast.LENGTH_LONG).show()
                 })
 
-        // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest)
     }
 
@@ -157,7 +155,7 @@ class RegistryPage : AppCompatActivity() {
         }
 
         else {
-            val url = "http://10.0.2.2:3000/users/cert"
+            val url = serverUrl + "users/cert"
             val certificateMessage = JSONObject()
 
             val cert: X509Certificate
@@ -175,12 +173,13 @@ class RegistryPage : AppCompatActivity() {
             val payload = JSONObject.quote(b64Cert) // JSON requires enclosing quotes
 
             certificateMessage.put("payload", payload.toByteArray(Charset.forName("ISO-8859-1")))
-/*
+
+            //TODO Send Certificate and store it
+            /*
             val queue = Volley.newRequestQueue(this)
 
             val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, certificateMessage,
                     { response ->
-                        // Display the first 500 characters of the response string.
                         println("Response is: $response")
                         val intent = Intent(this, MainActivityPage::class.java).apply { }
                         startActivity(intent)
@@ -190,9 +189,8 @@ class RegistryPage : AppCompatActivity() {
                         Toast.makeText(this, R.string.server_error, Toast.LENGTH_LONG).show()
                     })
 
-            // Add the request to the RequestQueue.
             queue.add(jsonObjectRequest)
-*/
+            */
             val intent = Intent(this, MainActivityPage::class.java).apply { }
             startActivity(intent)
 
