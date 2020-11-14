@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.acme_industries.acmecaf.R
 import com.acme_industries.acmecaf.RecyclerAdapter
 import com.acme_industries.acmecaf.core.Constants.Companion.serverUrl
+import com.acme_industries.acmecaf.core.MainViewModel
 import com.acme_industries.acmecaf.core.Product
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -21,9 +21,10 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
+
+    val cartModel: MainViewModel by activityViewModels()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -43,10 +44,10 @@ class HomeFragment : Fragment() {
                     println(prodlist)
                     for (it in 0 until prodlist.length()){
                         val prod = prodlist.getJSONObject(it)
-                        products.add(Product(prod.get("title") as String,
-                                            prod.get("details") as String,
-                                            prod.get("price") as String,
-                                            prod.get("image") as String))
+                        products.add(Product(prod.getString("title"),
+                                             prod.getString("details"),
+                                             prod.getDouble("price"),
+                                             prod.getString("image")))
                     }
 
                     adapter = RecyclerAdapter(products)
@@ -64,14 +65,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.home_title)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-
-        return root
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 }

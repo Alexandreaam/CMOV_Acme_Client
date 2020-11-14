@@ -35,7 +35,7 @@ class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<R
 
             itemTitle.text = product.title
             itemDetail.text = product.details
-            itemPrice.text = product.price
+            itemPrice.text = product.price.toString() + "€"
             itemQuantity.text = product.quantity.toString()
             removeButton.setColorFilter(Color.argb(150,200,200,200));
             removeButton.tag = "grayed";
