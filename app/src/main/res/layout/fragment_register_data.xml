@@ -17,7 +17,7 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/checkout_resume"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -19,7 +19,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
         for (it in 0 until prodList.length()){
             val prod = prodList.getJSONObject(it)
             this.products.add(
-                Product(prod.getString("title"),
+                Product(prod.getInt("productid"),
+                    prod.getString("title"),
                     prod.getString("details"),
                     prod.getDouble("price"),
                     prod.getString("image"))
@@ -75,5 +76,15 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
 
     private fun updateItemsLiveData() {
         itemsLiveData.postValue(items())
+    }
+
+    fun getFormatedData(): String {
+
+        //TODO Simplify order data, too much unnecessary info for order
+        val data = JSONObject()
+        data.put("Order",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()).toString() })
+        data.put("Total", cart.totalCost)
+
+        return data.toString()
     }
 }

@@ -14,6 +14,8 @@ import com.acme_industries.acmecaf.core.QRBuilder
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_login_page.*
 import kotlinx.android.synthetic.main.fragment_register_data.*
 import org.json.JSONObject
 
