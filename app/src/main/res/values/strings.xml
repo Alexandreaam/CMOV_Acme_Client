@@ -36,4 +36,8 @@
     <string name="username_taken">Username already taken!</string>
     <string name="server_error">Something went wrong, try again later</string>
     <string name="prod_desc">Product Description</string>
+    <string name="empty_cart">None</string>
+    <string name="checkout_vouchers">Vouchers:</string>
+    <string name="checkout_products">Products:</string>
+    <string name="checkout_title">Checkout</string>
 </resources>

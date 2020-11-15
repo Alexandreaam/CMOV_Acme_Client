@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Checkout"
+        android:text="@string/checkout_title"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,27 +17,64 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/checkout_resume"
+        android:id="@+id/checkout_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/checkout_total"
+        android:text="@string/checkout_products"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_resume"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <TextView
-        android:id="@+id/checkout_total"
+        android:id="@+id/checkout_resume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/empty_cart"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_voucher_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkout_product_name" />
+
+    <TextView
+        android:id="@+id/checkout_voucher_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkout_vouchers"
         android:textSize="18sp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/qr_image"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_voucher_resume"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkout_resume" />
+
+    <TextView
+        android:id="@+id/checkout_voucher_resume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/empty_cart"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkout_voucher_name" />
+
+    <TextView
+        android:id="@+id/checkout_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/empty_cart"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/qr_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkout_voucher_resume" />
 
     <ImageView
         android:id="@+id/qr_image"
@@ -47,4 +84,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkout_total"
         app:srcCompat="@drawable/main_icon"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

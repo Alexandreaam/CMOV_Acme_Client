@@ -54,7 +54,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun checkout(root: View) {
-
         val modalSheetView = layoutInflater.inflate(R.layout.bottom_layout_sheet,null)
         val dialog = BottomSheetDialog(root.context)
         dialog.setContentView(modalSheetView)
