@@ -1,25 +1,16 @@
 package com.acme_industries.acmecaf.core
 
 class Cart {
-    private val productList: ArrayList<Product> = ArrayList()
+    val orderList: ArrayList<Order> = ArrayList()
     val totalCost: Double
         get(){
-            return productList.map { it.quantity * it.price }.sum()
+            return orderList.map { it.totalCost }.sum()
         }
 
-    fun addProduct (product : Product) {
-        productList.add(product)
+    fun addOrder (order : Order) {
+        orderList.add(order)
     }
-    fun removeProduct (product: Product) {
-        productList.remove(product)
-    }
-    fun removeProduct (product: String) {
-        productList.remove(productList.first { it.title == product })
-    }
-
-    fun getTotalOf (name : String): Double {
-        return productList.filter { it.title == name }
-                            .map { it.quantity * it.price }
-                            .sum()
+    fun removeOrder (order: Order) {
+        orderList.remove(order)
     }
 }

@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/registerData"
-        android:name="com.acme_industries.acmecaf.registerData"
+        android:name="com.acme_industries.acmecaf.ui.login.RegisterData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"

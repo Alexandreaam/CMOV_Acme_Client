@@ -4,13 +4,15 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.acme_industries.acmecaf.core.Cart
+import com.acme_industries.acmecaf.core.Constants
 import com.acme_industries.acmecaf.core.MainViewModel
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 
 class MainActivityPage : AppCompatActivity() {
 
@@ -21,30 +23,24 @@ class MainActivityPage : AppCompatActivity() {
         supportActionBar?.hide();
         setContentView(R.layout.activity_main_page)
 
-        // Create a ViewModel the first time the system calls an activity's onCreate() method.
-        // Re-created activities receive the same MyViewModel instance created by the first activity.
+        val url = Constants.serverUrl + "menu"
 
-        // Use the 'by viewModels()' Kotlin property delegate
-        // from the activity-ktx artifact
+        val queue = Volley.newRequestQueue(this)
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null ,
+            { response ->
+                println("Response is: $response")
+                cartModel.productMessageParse(response)
+            },
+            { error ->
+                println("That didn't work: $error")
+            })
+        queue.add(jsonObjectRequest)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.navigation_menu -> {
-                    println("im a menu")
-                }
-                R.id.navigation_vouchers -> {
-                    println("im a vouchers")
-                }
-                R.id.navigation_profile -> {
-                    println("im a profile")
-                }
-            }
-        }
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_menu, R.id.navigation_vouchers, R.id.navigation_profile

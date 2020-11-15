@@ -100,7 +100,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/login_frag"
-            android:name="com.acme_industries.acmecaf.simpleLogin"
+            android:name="com.acme_industries.acmecaf.ui.login.SimpleLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

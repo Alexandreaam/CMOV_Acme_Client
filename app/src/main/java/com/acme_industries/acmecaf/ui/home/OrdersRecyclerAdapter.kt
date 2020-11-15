@@ -1,25 +1,29 @@
-package com.acme_industries.acmecaf
+package com.acme_industries.acmecaf.ui.home
 
-import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.acme_industries.acmecaf.core.Constants
-import com.acme_industries.acmecaf.core.Product
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
+import com.acme_industries.acmecaf.R
+import com.acme_industries.acmecaf.core.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 
-class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class OrdersRecyclerAdapter() : RecyclerView.Adapter<OrdersRecyclerAdapter.ViewHolder>() {
+
+    var products: List<OrdersRecyclerAdapterItem> = emptyList()
+
+    interface ItemClickListener {
+        fun incrementQuantity(productName: String)
+        fun decreaseQuantity(productName: String)
+    }
+
+    var itemClickListener: ItemClickListener? = null
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -31,34 +35,23 @@ class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<R
         private var addButton: ImageView = itemView.findViewById(R.id.add_butt)
         private var removeButton: ImageView = itemView.findViewById(R.id.rem_butt)
 
-        fun bind (product: Product) {
+        fun bind (order: OrdersRecyclerAdapterItem, itemClickListener: ItemClickListener?) {
 
-            itemTitle.text = product.title
-            itemDetail.text = product.details
-            itemPrice.text = product.price.toString() + "€"
-            itemQuantity.text = product.quantity.toString()
-            removeButton.setColorFilter(Color.argb(150,200,200,200));
-            removeButton.tag = "grayed";
+            itemTitle.text = order.title
+            itemDetail.text = order.details
+            itemPrice.text = "%.2f€".format(order.price)
+            itemQuantity.text = order.quantity.toString()
+            removeButton.colorFilter = order.colorFilter
+
             Glide.with(itemView)
-                    .load(Constants.serverUrl + product.image)
-                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true))
+                    .load(Constants.serverUrl + order.image)
                     .into(itemImage)
 
             addButton.setOnClickListener {
-                product.quantity += 1
-                itemQuantity.text = product.quantity.toString()
-                removeButton.colorFilter = null;
-
+                itemClickListener?.incrementQuantity(order.title)
             }
             removeButton.setOnClickListener {
-                if(product.quantity > 0) {
-                    product.quantity -= 1
-                    itemQuantity.text = product.quantity.toString()
-                    if(product.quantity == 0) {
-                        removeButton.setColorFilter(Color.argb(150,200,200,200));
-                        removeButton.tag = "grayed";
-                    }
-                }
+                itemClickListener?.decreaseQuantity(order.title)
             }
         }
     }
@@ -70,9 +63,13 @@ class RecyclerAdapter(val products: ArrayList<Product>) : RecyclerView.Adapter<R
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.bind(products[i])
+        viewHolder.bind(products[i], itemClickListener)
     }
     override fun getItemCount(): Int {
         return products.size
+    }
+    fun refreshData(products: List<OrdersRecyclerAdapterItem>) {
+        this.products = products
+        notifyDataSetChanged()
     }
 }
