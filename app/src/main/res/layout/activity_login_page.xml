@@ -115,6 +115,14 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="testQR"
+        android:text="Button"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="18dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

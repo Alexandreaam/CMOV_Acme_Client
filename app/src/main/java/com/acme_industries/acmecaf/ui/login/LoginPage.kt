@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.acme_industries.acmecaf.MainActivityPage
 import com.acme_industries.acmecaf.R
 import com.acme_industries.acmecaf.core.Constants
+import com.acme_industries.acmecaf.core.QRBuilder
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley

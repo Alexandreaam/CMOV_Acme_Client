@@ -10,6 +10,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
 
     val cart = Cart()
     val products = ArrayList<Product>()
+    val vouchers = ArrayList<Voucher>()
     val itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
 
     fun productMessageParse (response: JSONObject){
@@ -25,6 +26,20 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
             )
         }
         updateItemsLiveData()
+    }
+
+    fun voucherMessageParse (response: JSONObject){
+        val prodList = response.getJSONArray("Vouchers")
+        println(prodList)
+        for (it in 0 until prodList.length()){
+            val prod = prodList.getJSONObject(it)
+            this.vouchers.add(
+                Voucher(prod.getString("title"),
+                    prod.getString("details"),
+                    prod.getString("image"))
+            )
+        }
+        //updateItemsLiveData()
     }
 
     private fun items(): List<OrdersRecyclerAdapterItem> {
