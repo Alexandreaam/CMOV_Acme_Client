@@ -30,7 +30,7 @@
             android:padding="5dp">
 
             <com.rishabhharit.roundedimageview.RoundedImageView
-                android:id="@+id/prod_img"
+                android:id="@+id/vouch_img"
                 android:layout_width="92dp"
                 android:layout_height="92dp"
                 android:contentDescription="@string/home_title"
@@ -42,76 +42,52 @@
                 app:srcCompat="@drawable/main_icon" />
 
             <TextView
-                android:id="@+id/prod_name"
+                android:id="@+id/vouch_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginEnd="10dp"
                 android:fontFamily="@font/montserratsemibold"
-                android:text="@string/prod_name"
+                android:text="@string/vouch_name"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/add_butt"
-                app:layout_constraintStart_toEndOf="@+id/prod_img"
+                app:layout_constraintStart_toEndOf="@+id/vouch_img"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/prod_price"
+                android:id="@+id/vouch_quant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="2dp"
                 android:fontFamily="@font/montserratregular"
-                android:text="@string/product_price"
+                android:text="@string/vouch_quant"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/prod_img" />
-
-            <ImageView
-                android:id="@+id/rem_butt"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="6dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/minus" />
-
-            <ImageView
-                android:id="@+id/add_butt"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/add" />
+                app:layout_constraintStart_toEndOf="@+id/vouch_img" />
 
             <TextView
-                android:id="@+id/prod_quant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:fontFamily="@font/montserratbold"
-                android:text="0"
-                android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toTopOf="@+id/rem_butt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_butt" />
-
-            <TextView
-                android:id="@+id/prod_desc"
+                android:id="@+id/vouch_desc"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="14dp"
+                android:text="@string/vouch_desc"
+                app:layout_constraintBottom_toTopOf="@+id/vouch_quant"
+                app:layout_constraintEnd_toStartOf="@+id/vouch_check"
+                app:layout_constraintStart_toEndOf="@+id/vouch_img"
+                app:layout_constraintTop_toBottomOf="@+id/vouch_name" />
+
+            <CheckBox
+                android:id="@+id/vouch_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="@string/prod_desc"
-                app:layout_constraintBottom_toTopOf="@+id/prod_price"
-                app:layout_constraintEnd_toStartOf="@+id/add_butt"
-                app:layout_constraintStart_toEndOf="@+id/prod_img"
-                app:layout_constraintTop_toBottomOf="@+id/prod_name" />
+                android:text="@string/use_tag"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

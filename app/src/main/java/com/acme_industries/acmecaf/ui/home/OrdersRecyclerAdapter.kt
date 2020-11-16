@@ -1,7 +1,5 @@
 package com.acme_industries.acmecaf.ui.home
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.acme_industries.acmecaf.R
 import com.acme_industries.acmecaf.core.*
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 
 class OrdersRecyclerAdapter() : RecyclerView.Adapter<OrdersRecyclerAdapter.ViewHolder>() {
 
@@ -58,7 +54,7 @@ class OrdersRecyclerAdapter() : RecyclerView.Adapter<OrdersRecyclerAdapter.ViewH
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.food_card, viewGroup, false)
+            .inflate(R.layout.product_card, viewGroup, false)
         return ViewHolder(v)
     }
 

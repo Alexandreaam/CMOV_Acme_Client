@@ -4,14 +4,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapter
 import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapterItem
+import com.acme_industries.acmecaf.ui.vouchers.VoucherRecyclerAdapter
+import com.acme_industries.acmecaf.ui.vouchers.VoucherRecyclerAdapterItem
 import org.json.JSONObject
 
-class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
+class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  VoucherRecyclerAdapter.VoucherClickListener {
 
     val cart = Cart()
     val products = ArrayList<Product>()
     val vouchers = ArrayList<Voucher>()
     val itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
+    val vouchersLiveData = MutableLiveData<List<VoucherRecyclerAdapterItem>>()
+
 
     fun productMessageParse (response: JSONObject){
         val prodList = response.getJSONArray("Products")
@@ -27,20 +31,18 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
             )
         }
         updateItemsLiveData()
-    }
 
-    fun voucherMessageParse (response: JSONObject){
-        val prodList = response.getJSONArray("Vouchers")
+        val vouchList = response.getJSONArray("Vouchers")
         println(prodList)
-        for (it in 0 until prodList.length()){
-            val prod = prodList.getJSONObject(it)
+        for (it in 0 until vouchList.length()){
+            val vouch = vouchList.getJSONObject(it)
             this.vouchers.add(
-                Voucher(prod.getString("title"),
-                    prod.getString("details"),
-                    prod.getString("image"))
+                Voucher(vouch.getString("title"),
+                    vouch.getString("details"),
+                    vouch.getString("image"))
             )
         }
-        //updateItemsLiveData()
+        updateVoucherLiveData()
     }
 
     private fun items(): List<OrdersRecyclerAdapterItem> {
@@ -51,6 +53,17 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
             val image = product.image
             val quantity = cart.orderList.find { it.product == product }?.quantity ?: 0
             OrdersRecyclerAdapterItem(title, details, price, image, quantity)
+        }
+    }
+
+    private fun vouchers(): List<VoucherRecyclerAdapterItem> {
+        return vouchers.map { voucher ->
+            val title = voucher.title
+            val details = voucher.details
+            val image = voucher.image
+            val quantity = 1
+            val use = false
+            VoucherRecyclerAdapterItem(title, details, image, quantity, use)
         }
     }
 
@@ -78,6 +91,10 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
         itemsLiveData.postValue(items())
     }
 
+    private fun updateVoucherLiveData() {
+        vouchersLiveData.postValue(vouchers())
+    }
+
     fun getFormatedData(): String {
 
         //TODO Simplify order data, too much unnecessary info for order
@@ -86,5 +103,13 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener {
         data.put("Total", cart.totalCost)
 
         return data.toString()
+    }
+
+    override fun checkVouch(vouchName: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun uncheckVouch(vouchName: String) {
+        TODO("Not yet implemented")
     }
 }

@@ -40,4 +40,10 @@
     <string name="checkout_vouchers">Vouchers:</string>
     <string name="checkout_products">Products:</string>
     <string name="checkout_title">Checkout</string>
+    <string name="add_button_description">add_item_button</string>
+    <string name="remove_button_description">remove_item_button</string>
+    <string name="use_tag">Use</string>
+    <string name="vouch_name">Voucher Name</string>
+    <string name="vouch_desc">Voucher Description</string>
+    <string name="vouch_quant">x vouchers available</string>
 </resources>
