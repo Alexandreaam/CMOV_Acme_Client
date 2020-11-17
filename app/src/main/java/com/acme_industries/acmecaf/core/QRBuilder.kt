@@ -5,9 +5,9 @@ import android.graphics.Bitmap
 import androidx.core.content.ContextCompat
 import com.acme_industries.acmecaf.R
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.common.BitMatrix
 
 
 class QRBuilder (var context: Context){
@@ -24,7 +24,7 @@ class QRBuilder (var context: Context){
                         col,
                         line
                     )
-                ) ContextCompat.getColor(context, R.color.colorPrimary) else ContextCompat.getColor(context, R.color.white)
+                ) ContextCompat.getColor(context, R.color.colorPrimary) else ContextCompat.getColor(context, R.color.colorOnSecondary)
             }
         }
         val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)

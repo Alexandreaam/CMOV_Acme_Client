@@ -14,7 +14,7 @@
         android:fontFamily="@font/montserratbold"
         android:gravity="center_horizontal"
         android:text="@string/title_voucher"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

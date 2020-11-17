@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
@@ -47,9 +46,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="2dp"
-                android:fontFamily="@font/montserratsemibold"
+                android:fontFamily="@font/montserratbold"
                 android:text="@string/vouch_name"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/vouch_img"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -60,10 +59,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="2dp"
-                android:fontFamily="@font/montserratregular"
+                android:fontFamily="@font/montserratsemibold"
                 android:text="@string/vouch_quant"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
+                android:textColor="@color/colorAccent2"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/vouch_img" />
 
@@ -74,6 +73,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="14dp"
                 android:text="@string/vouch_desc"
+                android:fontFamily="@font/montserratregular"
                 app:layout_constraintBottom_toTopOf="@+id/vouch_quant"
                 app:layout_constraintEnd_toStartOf="@+id/vouch_check"
                 app:layout_constraintStart_toEndOf="@+id/vouch_img"
@@ -85,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="@string/use_tag"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/montserratsemibold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

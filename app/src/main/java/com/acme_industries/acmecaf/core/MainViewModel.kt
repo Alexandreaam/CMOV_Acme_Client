@@ -20,6 +20,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
     fun productMessageParse (response: JSONObject){
         val prodList = response.getJSONArray("Products")
         println(prodList)
+        this.products.clear()
         for (it in 0 until prodList.length()){
             val prod = prodList.getJSONObject(it)
             this.products.add(
@@ -34,6 +35,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
 
         val vouchList = response.getJSONArray("Vouchers")
         println(prodList)
+        this.vouchers.clear()
         for (it in 0 until vouchList.length()){
             val vouch = vouchList.getJSONObject(it)
             this.vouchers.add(
@@ -99,7 +101,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
 
         //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
-        data.put("Order",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()).toString() })
+        data.put("Order",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()) })
         data.put("Total", cart.totalCost)
 
         return data.toString()
