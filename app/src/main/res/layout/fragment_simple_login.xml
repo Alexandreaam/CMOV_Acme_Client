@@ -15,6 +15,7 @@
         android:layout_weight="1"
         android:textColorHint="@color/colorOnSecondary"
         android:textColor="@color/colorOnSecondary"
+        android:backgroundTint="@color/colorOnSecondary"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/user_hint"
