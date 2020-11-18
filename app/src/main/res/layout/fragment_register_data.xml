@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".register_data"
+    tools:context=".ui.login.RegisterData"
     android:orientation="vertical">
 
     <TextView
@@ -18,9 +18,11 @@
 
     <TextView
         android:id="@+id/checkout_resume"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:textColor="@color/colorOnSecondary"
+        android:textSize="24sp"
+        android:fontFamily="@font/montserratbold"
         android:text="@string/signup_dif_text" />
 
     <EditText
@@ -28,6 +30,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColorHint="@color/colorOnSecondary"
+        android:textColor="@color/colorOnSecondary"
+        android:backgroundTint="@color/colorOnSecondary"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/user_hint"
@@ -38,6 +43,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColorHint="@color/colorOnSecondary"
+        android:textColor="@color/colorOnSecondary"
+        android:backgroundTint="@color/colorOnSecondary"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/pass_hint"
@@ -48,6 +56,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColorHint="@color/colorOnSecondary"
+        android:textColor="@color/colorOnSecondary"
+        android:backgroundTint="@color/colorOnSecondary"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/confirm_pass_hint"
@@ -57,7 +68,10 @@
         android:id="@+id/checkout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:textColor="@color/colorOnSecondary"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/montserratbold"
         android:text="@string/extra_text" />
 
     <EditText
@@ -65,6 +79,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColorHint="@color/colorOnSecondary"
+        android:textColor="@color/colorOnSecondary"
+        android:backgroundTint="@color/colorOnSecondary"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/realname_hint"
@@ -75,6 +92,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColorHint="@color/colorOnSecondary"
+        android:textColor="@color/colorOnSecondary"
+        android:backgroundTint="@color/colorOnSecondary"
         android:ems="10"
         android:hint="@string/card_hint"
         android:inputType="text"
@@ -85,6 +105,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColorHint="@color/colorOnSecondary"
+        android:textColor="@color/colorOnSecondary"
+        android:backgroundTint="@color/colorOnSecondary"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/NIF_hint"
