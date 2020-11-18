@@ -14,11 +14,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/icon_description"
+        android:paddingHorizontal="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingHorizontal="10dp"
         app:srcCompat="@drawable/main_icon" />
 
 
@@ -55,28 +55,26 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserratbold"
-        android:textColor="@color/colorOnSecondary"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserratbold"
         android:text="@string/signin_text"
+        android:textColor="@color/colorOnSecondary"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
 
-
     <Button
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:textAllCaps="false"
-        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/montserratbold"
         android:onClick="fullRegistry"
-        android:background=""
         android:text="@string/register_text"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -85,33 +83,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="textView3,registerButton "
-        />
+        app:constraint_referenced_ids="textView3,registerButton" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/login_frag"
         android:name="com.acme_industries.acmecaf.ui.login.SimpleLogin"
         android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/button"
         app:layout_constraintEnd_toStartOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/loginTopBarrier"
-        android:layout_marginBottom="10dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/button"  >
+        app:layout_constraintTop_toBottomOf="@id/loginTopBarrier">
 
     </androidx.fragment.app.FragmentContainerView>
 
     <Button
         android:id="@+id/button"
-        android:layout_marginBottom="20dp"
-        android:textAllCaps="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/montserratbold"
         android:gravity="center"
         android:onClick="loginFunction"
         android:text="@string/continue_button"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view" />
