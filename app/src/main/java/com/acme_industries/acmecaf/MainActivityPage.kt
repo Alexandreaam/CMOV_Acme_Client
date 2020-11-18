@@ -55,6 +55,8 @@ class MainActivityPage : AppCompatActivity() {
                 findViewById<Button>(R.id.checkout_button).visibility = View.VISIBLE
         }
 
+        cartModel.vouchersLiveData.observe(this) { }
+
         val navController = findNavController(R.id.nav_host_fragment)
 
         val appBarConfiguration = AppBarConfiguration(
@@ -72,12 +74,18 @@ class MainActivityPage : AppCompatActivity() {
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(modalSheetView)
 
-        val list = modalSheetView.findViewById<TextView>(R.id.checkout_resume)
+        val productlist = modalSheetView.findViewById<TextView>(R.id.checkout_resume)
+        val voucherlist = modalSheetView.findViewById<TextView>(R.id.checkout_voucher_resume)
         val total = modalSheetView.findViewById<TextView>(R.id.checkout_total)
         var temp = ""
 
         cartModel.cart.orderList.map { temp += (it.product.title + " x " + it.quantity + "\n")}.toString()
-        list.text = temp
+        productlist.text = temp
+
+        temp = ""
+        cartModel.cart.orderVoucherList.map { temp += (it.voucher.title + " discount applied!" + "\n")}.toString()
+        voucherlist.text = temp
+
         total.text = "Total:${"%.2f€".format(cartModel.cart.totalCost)}"
 
         //TODO Add user key

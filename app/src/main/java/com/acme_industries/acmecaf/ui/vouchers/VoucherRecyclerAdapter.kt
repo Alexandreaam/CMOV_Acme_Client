@@ -9,8 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.acme_industries.acmecaf.R
 import com.acme_industries.acmecaf.core.Constants
-import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapter
-import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapterItem
 import com.bumptech.glide.Glide
 
 class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.ViewHolder>() {
@@ -20,7 +18,6 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
 
     interface VoucherClickListener {
         fun checkVouch(vouchName: String)
-        fun uncheckVouch(vouchName: String)
     }
 
     var voucherClickListener: VoucherClickListener? = null
@@ -33,7 +30,7 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
         var vouchQuantity: TextView = itemView.findViewById(R.id.vouch_quant)
         private var vouchCheck: CheckBox = itemView.findViewById(R.id.vouch_check)
 
-        fun bind (voucher: VoucherRecyclerAdapterItem) {
+        fun bind (voucher: VoucherRecyclerAdapterItem, voucherClickListener: VoucherClickListener?) {
 
             vouchTitle.text = voucher.title
             vouchDetail.text = voucher.details
@@ -43,6 +40,10 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
             Glide.with(itemView)
                 .load(Constants.serverUrl + voucher.image)
                 .into(vouchImage)
+
+            vouchCheck.setOnClickListener{
+                voucherClickListener?.checkVouch(voucher.title)
+            }
 
         }
     }
@@ -54,7 +55,7 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.bind(vouchers[i])
+        viewHolder.bind(vouchers[i], voucherClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -63,6 +64,6 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
 
     fun refreshData(vouchers: List<VoucherRecyclerAdapterItem>) {
         this.vouchers = vouchers
-        //notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 }

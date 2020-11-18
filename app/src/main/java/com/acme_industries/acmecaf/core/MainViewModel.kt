@@ -11,8 +11,8 @@ import org.json.JSONObject
 class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  VoucherRecyclerAdapter.VoucherClickListener {
 
     val cart = Cart()
-    val products = ArrayList<Product>()
-    val vouchers = ArrayList<Voucher>()
+    private val products = ArrayList<Product>()
+    private val vouchers = ArrayList<Voucher>()
     val itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
     val vouchersLiveData = MutableLiveData<List<VoucherRecyclerAdapterItem>>()
 
@@ -41,7 +41,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             this.vouchers.add(
                 Voucher(vouch.getString("title"),
                     vouch.getString("details"),
-                    vouch.getString("image"))
+                    vouch.getString("image"),
+                    vouch.getInt("quantity"))
             )
         }
         updateVoucherLiveData()
@@ -63,8 +64,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val title = voucher.title
             val details = voucher.details
             val image = voucher.image
-            val quantity = 1
-            val use = false
+            val quantity = voucher.quantity
+            val use = cart.orderVoucherList.find { it.voucher == voucher }?.use ?: false
             VoucherRecyclerAdapterItem(title, details, image, quantity, use)
         }
     }
@@ -102,16 +103,19 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
         data.put("Order",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()) })
+        data.put("Voucher",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()) })
         data.put("Total", cart.totalCost)
 
         return data.toString()
     }
 
     override fun checkVouch(vouchName: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun uncheckVouch(vouchName: String) {
-        TODO("Not yet implemented")
+        if (!cart.orderVoucherList.any { it.voucher.title == vouchName }) {
+            cart.addVoucher(OrderVoucher(vouchers.first { it.title == vouchName}, true))
+        } else {
+            val orderVoucher = cart.orderVoucherList.first { it.voucher.title == vouchName }
+            cart.removeVoucher(orderVoucher)
+        }
+        updateVoucherLiveData()
     }
 }
