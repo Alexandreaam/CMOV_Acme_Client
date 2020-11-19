@@ -57,7 +57,9 @@ class LoginPage : AppCompatActivity() {
 
                                 //TODO Save session
                                 //Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
-                                val intent = Intent(this, MainActivityPage::class.java).apply {}
+                                val intent = Intent(this, MainActivityPage::class.java).apply {
+                                    putExtra("userid", response.get("userid").toString())
+                                }
                                 startActivity(intent)
                             }
                             response.get("result") == "Wrong" -> {

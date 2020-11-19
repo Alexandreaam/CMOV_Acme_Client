@@ -106,7 +106,12 @@ class RegistryPage : AppCompatActivity() {
                     if (response.has("usernameTaken") && response.get("usernameTaken") == "True") {
                         editTextUser2.error = "Username already taken!"
                     } else if (response.has("username") && (response.get("username") == username)) {
-                        sendCertificate()
+                        // TODO(Fix the certificates)
+                        //sendCertificate()
+                        val intent = Intent(this, MainActivityPage::class.java).apply {
+                            putExtra("userid", response.get("userid").toString())
+                        }
+                        startActivity(intent)
                     }
                 },
                 { error ->
@@ -191,7 +196,7 @@ class RegistryPage : AppCompatActivity() {
 
             queue.add(jsonObjectRequest)
             */
-            val intent = Intent(this, MainActivityPage::class.java).apply { }
+            val intent = Intent(this, MainActivityPage::class.java).apply {}
             startActivity(intent)
 
         }

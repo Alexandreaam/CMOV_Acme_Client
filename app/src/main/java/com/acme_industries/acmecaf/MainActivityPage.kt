@@ -20,6 +20,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import org.json.JSONObject
 
 class MainActivityPage : AppCompatActivity() {
 
@@ -30,11 +31,16 @@ class MainActivityPage : AppCompatActivity() {
         supportActionBar?.hide();
         setContentView(R.layout.activity_main_page)
 
+        val userid = intent.getStringExtra("userid")
+
+        val menuRequest = JSONObject()
+        menuRequest.put("userid", userid)
+
         val url = Constants.serverUrl + "menu"
 
         val queue = Volley.newRequestQueue(this)
         val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET, url, null ,
+            Request.Method.POST, url, menuRequest ,
             { response ->
                 println("Response is: $response")
                 cartModel.productMessageParse(response)
