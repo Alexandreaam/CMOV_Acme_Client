@@ -39,7 +39,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         for (it in 0 until vouchList.length()){
             val vouch = vouchList.getJSONObject(it)
             this.vouchers.add(
-                Voucher(vouch.getString("title"),
+                Voucher(vouch.getInt("vouchid"),
+                    vouch.getString("title"),
                     vouch.getString("details"),
                     vouch.getString("image"),
                     vouch.getInt("quantity"))
@@ -61,15 +62,15 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
 
     private fun vouchers(): List<VoucherRecyclerAdapterItem> {
         return vouchers.map { voucher ->
+            val id = voucher.id
             val title = voucher.title
             val details = voucher.details
             val image = voucher.image
             val quantity = voucher.quantity
             val use = cart.orderVoucherList.find { it.voucher == voucher }?.use ?: false
-            VoucherRecyclerAdapterItem(title, details, image, quantity, use)
+            VoucherRecyclerAdapterItem(id, title, details, image, quantity, use)
         }
     }
-
 
     override fun incrementQuantity(productName: String) {
         if (!cart.orderList.any { it.product.title == productName }) {
@@ -103,7 +104,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
         data.put("Order",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()) })
-        data.put("Voucher",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()) })
+        data.put("Voucher",cart.orderVoucherList.map { (it.voucher.id.toString() + ":" + it.quantity.toString()) })
         data.put("Total", cart.totalCost)
 
         return data.toString()
@@ -111,7 +112,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
 
     override fun checkVouch(vouchName: String) {
         if (!cart.orderVoucherList.any { it.voucher.title == vouchName }) {
-            cart.addVoucher(OrderVoucher(vouchers.first { it.title == vouchName}, true))
+            cart.addVoucher(OrderVoucher(vouchers.first { it.title == vouchName}, 1, true))
         } else {
             val orderVoucher = cart.orderVoucherList.first { it.voucher.title == vouchName }
             cart.removeVoucher(orderVoucher)

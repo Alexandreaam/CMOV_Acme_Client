@@ -28,19 +28,19 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
         var vouchTitle: TextView = itemView.findViewById(R.id.vouch_name)
         var vouchDetail: TextView = itemView.findViewById(R.id.vouch_desc)
         var vouchQuantity: TextView = itemView.findViewById(R.id.vouch_quant)
-        private var vouchCheck: CheckBox = itemView.findViewById(R.id.vouch_check)
 
         fun bind (voucher: VoucherRecyclerAdapterItem, voucherClickListener: VoucherClickListener?) {
 
             vouchTitle.text = voucher.title
             vouchDetail.text = voucher.details
             vouchQuantity.text = voucher.quantity.toString() + " available vouchers"
-            vouchCheck.setChecked(voucher.use)
 
             Glide.with(itemView)
                 .load(Constants.serverUrl + voucher.image)
                 .into(vouchImage)
 
+            val vouchCheck: CheckBox = itemView.findViewById(R.id.vouch_check)
+            vouchCheck.setChecked(voucher.use)
             vouchCheck.setOnClickListener{
                 voucherClickListener?.checkVouch(voucher.title)
             }
@@ -50,7 +50,7 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.voucher_card, viewGroup, false)
+            .inflate(R.layout.voucher_card_single, viewGroup, false)
         return ViewHolder(v)
     }
 
