@@ -66,9 +66,10 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val title = voucher.title
             val details = voucher.details
             val image = voucher.image
-            val quantity = voucher.quantity
+            val total = voucher.total
+            val quantity = cart.orderVoucherList.find { it.voucher == voucher }?.quantity ?: 0
             val use = cart.orderVoucherList.find { it.voucher == voucher }?.use ?: false
-            VoucherRecyclerAdapterItem(id, title, details, image, quantity, use)
+            VoucherRecyclerAdapterItem(id, title, details, image, quantity, total, use)
         }
     }
 
@@ -118,5 +119,25 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             cart.removeVoucher(orderVoucher)
         }
         updateVoucherLiveData()
+    }
+
+    override fun incrementVoucherQuantity(vouchName: String) {
+        if (!cart.orderVoucherList.any { it.voucher.title == vouchName }) {
+            cart.addVoucher(OrderVoucher(vouchers.first { it.title == vouchName }, 1, true))
+        } else if (cart.orderVoucherList.first { it.voucher.title == vouchName }.quantity !=
+                    vouchers.first {it.title == vouchName}.total){
+            cart.orderVoucherList.first { it.voucher.title == vouchName }.quantity += 1
+        }
+        updateVoucherLiveData()
+    }
+
+    override fun decreaseVoucherQuantity(vouchName: String) {
+        if (cart.orderVoucherList.any { it.voucher.title == vouchName }) {
+            val voucher = cart.orderVoucherList.first { it.voucher.title == vouchName }
+            voucher.quantity -= 1
+            if (voucher.quantity == 0)
+                cart.removeVoucher(voucher)
+            updateVoucherLiveData()
+        }
     }
 }

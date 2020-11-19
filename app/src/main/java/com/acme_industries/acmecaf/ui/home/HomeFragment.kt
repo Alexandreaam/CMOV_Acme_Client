@@ -17,7 +17,7 @@ class HomeFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
 
-    val cartModel: MainViewModel by activityViewModels()
+    private val cartModel: MainViewModel by activityViewModels()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

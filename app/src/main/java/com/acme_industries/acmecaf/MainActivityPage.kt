@@ -23,7 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MainActivityPage : AppCompatActivity() {
 
-    val cartModel: MainViewModel by viewModels()
+    private val cartModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +83,7 @@ class MainActivityPage : AppCompatActivity() {
         productlist.text = temp
 
         temp = ""
-        cartModel.cart.orderVoucherList.map { temp += (it.voucher.title + " discount applied!" + "\n")}.toString()
+        cartModel.cart.orderVoucherList.map { temp += (it.voucher.title + " x " + it.quantity + "\n")}.toString()
         voucherlist.text = temp
 
         total.text = "Total:${"%.2f€".format(cartModel.cart.totalCost)}"
