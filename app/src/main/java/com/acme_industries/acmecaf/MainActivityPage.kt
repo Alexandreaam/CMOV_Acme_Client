@@ -25,13 +25,14 @@ import org.json.JSONObject
 class MainActivityPage : AppCompatActivity() {
 
     private val cartModel: MainViewModel by viewModels()
+    private var userid: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide();
         setContentView(R.layout.activity_main_page)
 
-        val userid = intent.getStringExtra("userid")
+        userid = intent.getStringExtra("userid").toString()
 
         val menuRequest = JSONObject()
         menuRequest.put("userid", userid)
@@ -94,13 +95,35 @@ class MainActivityPage : AppCompatActivity() {
 
         total.text = "Total:${"%.2f€".format(cartModel.cart.totalCost)}"
 
-        //TODO Add user key
+        //TODO (Add user key)
         val qr = QRBuilder(this)
-        val bitmap = qr.encodeAsBitmap(cartModel.getFormatedData())
+        val bitmap = qr.encodeAsBitmap(cartModel.getFormatedData(userid))
         val image = modalSheetView.findViewById<ImageView>(R.id.qr_image)
         image.setImageBitmap(bitmap)
 
-
         dialog.show()
+
+        val url = Constants.serverUrl + "order"
+        val queue = Volley.newRequestQueue(this)
+
+
+        //TODO (Simplify translation to json array)
+        val orderTest = JSONObject()
+        orderTest.put("Products",cartModel.cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
+        orderTest.put("Vouchers",cartModel.cart.orderVoucherList.map { ("\"" + it.voucher.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
+        orderTest.put("userid", userid)
+        orderTest.put("Total", cartModel.cart.totalCost)
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, orderTest ,
+            { response ->
+                println("Response is: $response")
+            },
+            { error ->
+                println("That didn't work: ${error.message}")
+            })
+        queue.add(jsonObjectRequest)
+
+
     }
 }

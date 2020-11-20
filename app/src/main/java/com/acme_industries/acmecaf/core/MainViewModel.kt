@@ -100,12 +100,13 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         vouchersLiveData.postValue(vouchers())
     }
 
-    fun getFormatedData(): String {
+    fun getFormatedData(userid: String): String {
 
         //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
-        data.put("Order",cart.orderList.map { (it.product.id.toString() + ":" + it.quantity.toString()) })
-        data.put("Voucher",cart.orderVoucherList.map { (it.voucher.id.toString() + ":" + it.quantity.toString()) })
+        data.put("Products",cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
+        data.put("Vouchers",cart.orderVoucherList.map { ("\"" + it.voucher.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
+        data.put("userid", userid)
         data.put("Total", cart.totalCost)
 
         return data.toString()
