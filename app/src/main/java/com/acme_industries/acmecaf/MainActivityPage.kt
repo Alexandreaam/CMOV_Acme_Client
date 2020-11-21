@@ -91,6 +91,8 @@ class MainActivityPage : AppCompatActivity() {
 
         temp = ""
         cartModel.cart.orderVoucherList.map { temp += (it.voucher.title + "\n")}.toString()
+        if(cartModel.has5disc)
+            temp += "\nOnly one 5% discount is used!"
         voucherlist.text = temp
 
         total.text = "Total:${"%.2f€".format(cartModel.cart.totalCost)}"

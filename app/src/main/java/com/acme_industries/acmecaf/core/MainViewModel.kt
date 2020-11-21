@@ -1,5 +1,6 @@
 package com.acme_industries.acmecaf.core
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapter
@@ -15,6 +16,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
     private val vouchers = ArrayList<Voucher>()
     val itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
     val vouchersLiveData = MutableLiveData<List<VoucherRecyclerAdapterItem>>()
+    var has5disc = false
 
 
     fun productMessageParse (response: JSONObject){
@@ -118,6 +120,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val orderVoucher = cart.orderVoucherList.first { it.voucher.id == vouchId }
             cart.removeVoucher(orderVoucher)
         }
+        has5disc = cart.orderVoucherList.any { !it.voucher.type }
         updateVoucherLiveData()
     }
 }
