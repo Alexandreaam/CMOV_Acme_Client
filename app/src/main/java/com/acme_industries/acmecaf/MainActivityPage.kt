@@ -20,6 +20,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONObject
 
 class MainActivityPage : AppCompatActivity() {
@@ -32,6 +33,23 @@ class MainActivityPage : AppCompatActivity() {
         supportActionBar?.hide();
         setContentView(R.layout.activity_main_page)
 
+        reload()
+
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
+        val navController = findNavController(R.id.nav_host_fragment)
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_menu, R.id.navigation_vouchers, R.id.navigation_profile
+            )
+        )
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+    }
+
+    fun reload() {
         userid = intent.getStringExtra("userid").toString()
 
         val menuRequest = JSONObject()
@@ -51,9 +69,12 @@ class MainActivityPage : AppCompatActivity() {
             })
         queue.add(jsonObjectRequest)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
         findViewById<Button>(R.id.checkout_button).setOnClickListener { checkout() }
+        findViewById<FloatingActionButton>(R.id.refresh_button).setOnClickListener {
+            cartModel.reset()
+            reload()
+        }
+        findViewById<FloatingActionButton>(R.id.refresh_button).visibility = View.INVISIBLE
 
         cartModel.itemsLiveData.observe(this) {
             if(cartModel.cart.orderList.isEmpty())
@@ -61,19 +82,8 @@ class MainActivityPage : AppCompatActivity() {
             else
                 findViewById<Button>(R.id.checkout_button).visibility = View.VISIBLE
         }
-
         cartModel.vouchersLiveData.observe(this) { }
 
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_menu, R.id.navigation_vouchers, R.id.navigation_profile
-            )
-        )
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
     }
 
     private fun checkout() {
@@ -126,6 +136,7 @@ class MainActivityPage : AppCompatActivity() {
             })
         queue.add(jsonObjectRequest)
 
-
+        findViewById<Button>(R.id.checkout_button).visibility = View.INVISIBLE
+        findViewById<FloatingActionButton>(R.id.refresh_button).visibility = View.VISIBLE
     }
 }

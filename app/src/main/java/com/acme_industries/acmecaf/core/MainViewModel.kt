@@ -11,13 +11,21 @@ import org.json.JSONObject
 
 class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  VoucherRecyclerAdapter.VoucherClickListener {
 
-    val cart = Cart()
-    private val products = ArrayList<Product>()
-    private val vouchers = ArrayList<Voucher>()
-    val itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
-    val vouchersLiveData = MutableLiveData<List<VoucherRecyclerAdapterItem>>()
+    var cart = Cart()
+    private var products = ArrayList<Product>()
+    private var vouchers = ArrayList<Voucher>()
+    var itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
+    var vouchersLiveData = MutableLiveData<List<VoucherRecyclerAdapterItem>>()
     var has5disc = false
 
+    fun reset() {
+        cart = Cart()
+        products.clear()
+        vouchers.clear()
+        has5disc = false
+        updateItemsLiveData()
+        updateVoucherLiveData()
+    }
 
     fun productMessageParse (response: JSONObject){
         val prodList = response.getJSONArray("Products")

@@ -9,23 +9,26 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.acme_industries.acmecaf.R
 import com.acme_industries.acmecaf.core.MainViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_home.*
+
 
 class HomeFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
 
     private val cartModel: MainViewModel by activityViewModels()
+    var adapterOrders = OrdersRecyclerAdapter()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         layoutManager = LinearLayoutManager(context)
         recycler_view.layoutManager = layoutManager
-
-        val adapterOrders = OrdersRecyclerAdapter()
 
         cartModel.itemsLiveData.observe(viewLifecycleOwner) {
             adapterOrders.refreshData(it)
@@ -40,8 +43,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        return root
     }
 
 
