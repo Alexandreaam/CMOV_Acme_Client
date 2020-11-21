@@ -138,5 +138,7 @@ class MainActivityPage : AppCompatActivity() {
 
         findViewById<Button>(R.id.checkout_button).visibility = View.INVISIBLE
         findViewById<FloatingActionButton>(R.id.refresh_button).visibility = View.VISIBLE
+        cartModel.reset()
+        reload()
     }
 }
