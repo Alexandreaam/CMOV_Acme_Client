@@ -106,7 +106,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
         data.put("Products",cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
-        data.put("Vouchers",cart.orderVoucherList.map { (it.voucher.id) }.toString().replace("[", "{").replace("]", "}"))
+        data.put("Vouchers",cart.orderVoucherList.map { ("\"" + it.voucher.id + "\":" + it.voucher.type.toString()) }.toString().replace("[", "{").replace("]", "}"))
         data.put("userid", userid)
         data.put("Total", cart.totalCost)
 

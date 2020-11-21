@@ -112,7 +112,7 @@ class MainActivityPage : AppCompatActivity() {
         //TODO (Simplify translation to json array)
         val orderTest = JSONObject()
         orderTest.put("Products",cartModel.cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
-        orderTest.put("Vouchers",cartModel.cart.orderVoucherList.map { ( it.voucher.id ) }.toString().replace("[", "{").replace("]", "}"))
+        orderTest.put("Vouchers",cartModel.cart.orderVoucherList.map { ("\"" + it.voucher.id + "\":" + it.voucher.type.toString()) }.toString().replace("[", "{").replace("]", "}"))
         orderTest.put("userid", userid)
         orderTest.put("Total", cartModel.cart.totalCost)
 
