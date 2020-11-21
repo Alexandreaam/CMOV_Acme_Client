@@ -4,9 +4,27 @@ class Cart {
     val orderList: ArrayList<Order> = ArrayList()
     val orderVoucherList: ArrayList<OrderVoucher> = ArrayList()
     val totalCost: Double
-        //TODO (Make voucher deduct from price)
         get(){
-            return orderList.map { it.totalCost }.sum()
+            var disc = 0
+            var coffeeDisc = 0.0
+            orderVoucherList.map {
+                if(it.voucher.type) {
+                    disc++
+                }
+            }
+            orderList.map {
+                if(it.product.id == 4) {
+                    coffeeDisc = if(it.quantity >= disc)
+                        0.50 * disc
+                    else
+                        0.50 * it.quantity
+                }
+            }
+            var total = orderList.map { it.totalCost }.sum() - coffeeDisc
+            if(orderVoucherList.any { !it.voucher.type }){
+                total *= 0.95
+            }
+            return total
         }
 
     fun addOrder (order : Order) {

@@ -42,7 +42,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
                 Voucher(vouch.getString("vouchid"),
                     vouch.getString("title"),
                     vouch.getString("details"),
-                    vouch.getString("image"))
+                    vouch.getString("image"),
+                    vouch.getBoolean("type"))
             )
         }
         updateVoucherLiveData()
@@ -65,8 +66,9 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val title = voucher.title
             val details = voucher.details
             val image = voucher.image
+            val type = voucher.type
             val use = cart.orderVoucherList.find { it.voucher.id == voucher.id }?.use ?: false
-            VoucherRecyclerAdapterItem(id, title, details, image, use)
+            VoucherRecyclerAdapterItem(id, title, details, image, use, type)
         }
     }
 
@@ -102,7 +104,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
         data.put("Products",cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
-        data.put("Vouchers",cart.orderVoucherList.map { ("\"" + it.voucher.id.toString() + "\":1") }.toString().replace("[", "{").replace("]", "}"))
+        data.put("Vouchers",cart.orderVoucherList.map { (it.voucher.id) }.toString().replace("[", "{").replace("]", "}"))
         data.put("userid", userid)
         data.put("Total", cart.totalCost)
 
