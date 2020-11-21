@@ -55,28 +55,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/vouch_quant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="2dp"
-                android:fontFamily="@font/montserratsemibold"
-                android:text="@string/vouch_quant"
-                android:textColor="@color/colorAccent2"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/vouch_img" />
-
-            <TextView
                 android:id="@+id/vouch_desc"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="32dp"
                 android:fontFamily="@font/montserratregular"
                 android:text="@string/vouch_desc"
-                app:layout_constraintBottom_toTopOf="@+id/vouch_quant"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/vouch_check"
                 app:layout_constraintStart_toEndOf="@+id/vouch_img"
                 app:layout_constraintTop_toBottomOf="@+id/vouch_name" />
 
@@ -87,47 +73,10 @@
                 android:fontFamily="@font/montserratsemibold"
                 android:text=""
                 android:textColor="@color/colorAccent"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/vouch_rem_butt"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="6dp"
-                android:contentDescription="@string/remove_button_description"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/minus" />
-
-            <ImageView
-                android:id="@+id/vouch_add_butt"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="@string/add_button_description"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/add" />
-
-            <TextView
-                android:id="@+id/vouch_use_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:fontFamily="@font/montserratbold"
-                android:text=""
-                android:textColor="@color/colorPrimaryDark"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/vouch_rem_butt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vouch_add_butt" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

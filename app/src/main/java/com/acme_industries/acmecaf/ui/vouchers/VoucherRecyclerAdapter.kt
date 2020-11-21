@@ -17,9 +17,7 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
     var vouchers: List<VoucherRecyclerAdapterItem> = emptyList()
 
     interface VoucherClickListener {
-        fun checkVouch(vouchName: String)
-        fun incrementVoucherQuantity(vouchName: String)
-        fun decreaseVoucherQuantity(vouchName: String)
+        fun checkVouch(vouchId: String)
     }
 
     var voucherClickListener: VoucherClickListener? = null
@@ -29,50 +27,24 @@ class VoucherRecyclerAdapter() : RecyclerView.Adapter<VoucherRecyclerAdapter.Vie
         var vouchImage: ImageView = itemView.findViewById(R.id.vouch_img)
         var vouchTitle: TextView = itemView.findViewById(R.id.vouch_name)
         var vouchDetail: TextView = itemView.findViewById(R.id.vouch_desc)
-        var vouchQuantity: TextView = itemView.findViewById(R.id.vouch_quant)
 
         fun bind (voucher: VoucherRecyclerAdapterItem, voucherClickListener: VoucherClickListener?) {
 
             vouchTitle.text = voucher.title
             vouchDetail.text = voucher.details
-            vouchQuantity.text = "Available vouchers: " + voucher.total.toString()
 
             Glide.with(itemView)
                 .load(Constants.serverUrl + voucher.image)
                 .into(vouchImage)
 
-            //TODO(Add type check)
-            if(voucher.id == 1) {
-                val addButton: ImageView = itemView.findViewById(R.id.vouch_add_butt)
-                val removeButton: ImageView = itemView.findViewById(R.id.vouch_rem_butt)
-                val vouchUseQuant: TextView = itemView.findViewById(R.id.vouch_use_quantity)
 
-                addButton.visibility = View.VISIBLE
-                removeButton.visibility = View.VISIBLE
-                vouchUseQuant.visibility = View.VISIBLE
+            val vouchCheck: CheckBox = itemView.findViewById(R.id.vouch_check)
 
-                addButton.colorFilter = voucher.addColorFilter
-                removeButton.colorFilter = voucher.remColorFilter
-
-                vouchUseQuant.text = voucher.quantity.toString()
-
-                addButton.setOnClickListener {
-                    voucherClickListener?.incrementVoucherQuantity(voucher.title)
-                }
-                removeButton.setOnClickListener {
-                    voucherClickListener?.decreaseVoucherQuantity(voucher.title)
-                }
+            vouchCheck.setChecked(voucher.use)
+            vouchCheck.setOnClickListener {
+                voucherClickListener?.checkVouch(voucher.id)
             }
-            if(voucher.id == 2) {
-                val vouchCheck: CheckBox = itemView.findViewById(R.id.vouch_check)
 
-                vouchCheck.visibility = View.VISIBLE
-
-                vouchCheck.setChecked(voucher.use)
-                vouchCheck.setOnClickListener {
-                    voucherClickListener?.checkVouch(voucher.title)
-                }
-            }
         }
     }
 

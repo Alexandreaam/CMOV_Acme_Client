@@ -90,7 +90,7 @@ class MainActivityPage : AppCompatActivity() {
         productlist.text = temp
 
         temp = ""
-        cartModel.cart.orderVoucherList.map { temp += (it.voucher.title + " x " + it.quantity + "\n")}.toString()
+        cartModel.cart.orderVoucherList.map { temp += (it.voucher.title + "\n")}.toString()
         voucherlist.text = temp
 
         total.text = "Total:${"%.2f€".format(cartModel.cart.totalCost)}"
@@ -110,7 +110,7 @@ class MainActivityPage : AppCompatActivity() {
         //TODO (Simplify translation to json array)
         val orderTest = JSONObject()
         orderTest.put("Products",cartModel.cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
-        orderTest.put("Vouchers",cartModel.cart.orderVoucherList.map { ("\"" + it.voucher.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
+        orderTest.put("Vouchers",cartModel.cart.orderVoucherList.map { ("\"" + it.voucher.id.toString() + "\":1") }.toString().replace("[", "{").replace("]", "}"))
         orderTest.put("userid", userid)
         orderTest.put("Total", cartModel.cart.totalCost)
 

@@ -25,6 +25,7 @@ import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import java.security.cert.X509Certificate
+import java.util.*
 import javax.security.auth.x500.X500Principal
 
 
@@ -89,8 +90,12 @@ class RegistryPage : AppCompatActivity() {
     }
 
     private fun createUser(username: String, password: String, realName: String, creditDebit: String, nif: String) {
+
+        val uuid = UUID.randomUUID()
+
         val url = serverUrl + "users"
         val registerMessage = JSONObject()
+        registerMessage.put("userid", uuid)
         registerMessage.put("username", username)
         registerMessage.put("password", password)
         registerMessage.put("fullname", realName)

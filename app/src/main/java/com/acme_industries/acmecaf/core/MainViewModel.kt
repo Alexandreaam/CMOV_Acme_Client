@@ -39,11 +39,10 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         for (it in 0 until vouchList.length()){
             val vouch = vouchList.getJSONObject(it)
             this.vouchers.add(
-                Voucher(vouch.getInt("vouchid"),
+                Voucher(vouch.getString("vouchid"),
                     vouch.getString("title"),
                     vouch.getString("details"),
-                    vouch.getString("image"),
-                    vouch.getInt("quantity"))
+                    vouch.getString("image"))
             )
         }
         updateVoucherLiveData()
@@ -66,10 +65,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val title = voucher.title
             val details = voucher.details
             val image = voucher.image
-            val total = voucher.total
-            val quantity = cart.orderVoucherList.find { it.voucher == voucher }?.quantity ?: 0
-            val use = cart.orderVoucherList.find { it.voucher == voucher }?.use ?: false
-            VoucherRecyclerAdapterItem(id, title, details, image, quantity, total, use)
+            val use = cart.orderVoucherList.find { it.voucher.id == voucher.id }?.use ?: false
+            VoucherRecyclerAdapterItem(id, title, details, image, use)
         }
     }
 
@@ -105,40 +102,20 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
         data.put("Products",cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
-        data.put("Vouchers",cart.orderVoucherList.map { ("\"" + it.voucher.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
+        data.put("Vouchers",cart.orderVoucherList.map { ("\"" + it.voucher.id.toString() + "\":1") }.toString().replace("[", "{").replace("]", "}"))
         data.put("userid", userid)
         data.put("Total", cart.totalCost)
 
         return data.toString()
     }
 
-    override fun checkVouch(vouchName: String) {
-        if (!cart.orderVoucherList.any { it.voucher.title == vouchName }) {
-            cart.addVoucher(OrderVoucher(vouchers.first { it.title == vouchName}, 1, true))
+    override fun checkVouch(vouchId: String) {
+        if (!cart.orderVoucherList.any { it.voucher.id == vouchId }) {
+            cart.addVoucher(OrderVoucher(vouchers.first { it.id == vouchId}, true))
         } else {
-            val orderVoucher = cart.orderVoucherList.first { it.voucher.title == vouchName }
+            val orderVoucher = cart.orderVoucherList.first { it.voucher.id == vouchId }
             cart.removeVoucher(orderVoucher)
         }
         updateVoucherLiveData()
-    }
-
-    override fun incrementVoucherQuantity(vouchName: String) {
-        if (!cart.orderVoucherList.any { it.voucher.title == vouchName }) {
-            cart.addVoucher(OrderVoucher(vouchers.first { it.title == vouchName }, 1, true))
-        } else if (cart.orderVoucherList.first { it.voucher.title == vouchName }.quantity !=
-                    vouchers.first {it.title == vouchName}.total){
-            cart.orderVoucherList.first { it.voucher.title == vouchName }.quantity += 1
-        }
-        updateVoucherLiveData()
-    }
-
-    override fun decreaseVoucherQuantity(vouchName: String) {
-        if (cart.orderVoucherList.any { it.voucher.title == vouchName }) {
-            val voucher = cart.orderVoucherList.first { it.voucher.title == vouchName }
-            voucher.quantity -= 1
-            if (voucher.quantity == 0)
-                cart.removeVoucher(voucher)
-            updateVoucherLiveData()
-        }
     }
 }
