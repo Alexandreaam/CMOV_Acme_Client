@@ -14,6 +14,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
     var cart = Cart()
     private var products = ArrayList<Product>()
     private var vouchers = ArrayList<Voucher>()
+    var userStats: UserStats? = null
     var itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
     var vouchersLiveData = MutableLiveData<List<VoucherRecyclerAdapterItem>>()
     var has5disc = false
@@ -22,6 +23,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         cart = Cart()
         products.clear()
         vouchers.clear()
+        userStats = null
         has5disc = false
         updateItemsLiveData()
         updateVoucherLiveData()
@@ -57,6 +59,17 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             )
         }
         updateVoucherLiveData()
+
+        val dataList = response.getJSONArray("Userdata")
+        println(prodList)
+        this.userStats = null
+        for (it in 0 until dataList.length()){
+            val data = dataList.getJSONObject(it)
+            this.userStats = UserStats(data.getInt("coffeecount"),
+                data.getDouble("totalspendings"),
+                data.getInt("tempcoffeecount"),
+                data.getDouble("tempspendings"))
+        }
     }
 
     private fun items(): List<OrdersRecyclerAdapterItem> {

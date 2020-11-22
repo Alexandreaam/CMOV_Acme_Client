@@ -46,4 +46,9 @@
     <string name="vouch_name">Voucher Name</string>
     <string name="vouch_desc">Voucher Description</string>
     <string name="vouch_quant">x vouchers available</string>
+    <string name="info_name">Information Name</string>
+    <string name="total_coff_counter">Total Coffees</string>
+    <string name="total_spent_count">Total Spent</string>
+    <string name="coffee_until_discount">For next voucher</string>
+    <string name="money_until_discount">For next voucher</string>
 </resources>
