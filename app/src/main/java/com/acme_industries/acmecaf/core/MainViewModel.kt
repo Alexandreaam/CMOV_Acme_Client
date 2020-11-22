@@ -186,6 +186,7 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         data.put("Products",cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
         data.put("Vouchers",cart.orderVoucherList.map { ("\"" + it.voucher.id + "\":" + it.voucher.type.toString()) }.toString().replace("[", "{").replace("]", "}"))
         data.put("userid", userid)
+        data.put("TotalDiscounted", cart.totalCostDiscounted)
         data.put("Total", cart.totalCost)
 
         return data.toString()

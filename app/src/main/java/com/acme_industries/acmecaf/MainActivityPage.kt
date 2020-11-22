@@ -91,9 +91,8 @@ class MainActivityPage : AppCompatActivity() {
             temp += "\nOnly one 5% discount is used!"
         voucherlist.text = temp
 
-        total.text = "Total: ${"%.2f€".format(cartModel.cart.totalCost)}"
+        total.text = "Total: ${"%.2f€".format(cartModel.cart.totalCostDiscounted)}"
 
-        //TODO (Add user key)
         val qr = QRBuilder(this)
         val bitmap = qr.encodeAsBitmap(cartModel.getFormatedData(userid))
         val image = modalSheetView.findViewById<ImageView>(R.id.qr_image)
@@ -109,7 +108,9 @@ class MainActivityPage : AppCompatActivity() {
         orderTest.put("Products",cartModel.cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
         orderTest.put("Vouchers",cartModel.cart.orderVoucherList.map { ("\"" + it.voucher.id + "\":" + it.voucher.type.toString()) }.toString().replace("[", "{").replace("]", "}"))
         orderTest.put("userid", userid)
+        orderTest.put("TotalDiscounted", cartModel.cart.totalCostDiscounted)
         orderTest.put("Total", cartModel.cart.totalCost)
+
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, orderTest ,

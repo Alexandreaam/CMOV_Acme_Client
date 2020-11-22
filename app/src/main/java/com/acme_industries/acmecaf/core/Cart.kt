@@ -3,7 +3,7 @@ package com.acme_industries.acmecaf.core
 class Cart {
     val orderList: ArrayList<Order> = ArrayList()
     val orderVoucherList: ArrayList<OrderVoucher> = ArrayList()
-    val totalCost: Double
+    val totalCostDiscounted: Double
         get(){
             var disc = 0
             var coffeeDisc = 0.0
@@ -25,6 +25,11 @@ class Cart {
                 total *= 0.95
             }
             return total
+        }
+
+    val totalCost: Double
+        get(){
+            return orderList.map { it.totalCost }.sum()
         }
 
     fun addOrder (order : Order) {
