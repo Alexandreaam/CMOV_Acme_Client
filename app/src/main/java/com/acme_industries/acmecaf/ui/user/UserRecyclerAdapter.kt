@@ -1,16 +1,14 @@
 package com.acme_industries.acmecaf.ui.user
 
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.acme_industries.acmecaf.R
-import com.acme_industries.acmecaf.core.Constants
-import com.bumptech.glide.Glide
+import org.json.JSONObject
+import java.lang.Integer.parseInt
 
 class UserRecyclerAdapter() : RecyclerView.Adapter<UserRecyclerAdapter.ViewHolder>() {
 
@@ -23,19 +21,43 @@ class UserRecyclerAdapter() : RecyclerView.Adapter<UserRecyclerAdapter.ViewHolde
 
     var userClickListener: UserClickListener? = null
 
-    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var orderNumber: TextView = itemView.findViewById(R.id.order_number)
         var orderTotal: TextView = itemView.findViewById(R.id.order_total)
         var orderSummary: TextView = itemView.findViewById(R.id.order_summary)
         var orderDate: TextView = itemView.findViewById(R.id.order_date)
 
-        fun bind (pastOrder: UserRecyclerAdapterItem, userClickListener: UserClickListener?) {
+        fun bind(pastOrder: UserRecyclerAdapterItem, userClickListener: UserClickListener?) {
+
+            var productsJS = JSONObject(pastOrder.products)
+            var vouchersJS = JSONObject(pastOrder.vouchers)
+
+            var tempOrderSummary = ""
+
+            val keys: Iterator<String> = productsJS.keys()
+
+            while (keys.hasNext()) {
+                val key = keys.next()
+                tempOrderSummary += pastOrder.allProducts[parseInt(key)].title + " x " + productsJS.get(key).toString() + "\n"
+            }
+
+            var tempVoucherSummary = ""
+
+            val keys2: Iterator<String> = vouchersJS.keys()
+
+            while (keys2.hasNext()) {
+                val key = keys2.next()
+                if(vouchersJS.get(key).toString() == "true")
+                    tempVoucherSummary += "Free Coffee Voucher\n"
+                else if(vouchersJS.get(key).toString() == "false")
+                    tempVoucherSummary += "5% Discount Voucher\n"
+            }
 
             orderNumber.text = "Order #" + pastOrder.id.toString()
             orderTotal.text = "%.2f€".format(pastOrder.total)
-            orderSummary.text = pastOrder.products.toString() + pastOrder.vouchers.toString()
-            orderDate.text = pastOrder.date.toString()
+            orderSummary.text = tempOrderSummary + "\n" + tempVoucherSummary
+            orderDate.text = pastOrder.date.split("T")[0]
 
 
             val orderRemove: ImageView = itemView.findViewById(R.id.rem_butt)

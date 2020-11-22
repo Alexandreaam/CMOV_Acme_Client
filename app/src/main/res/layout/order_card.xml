@@ -60,6 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/montserratregular"
                 android:text="@string/prod_desc"
@@ -76,7 +77,7 @@
                 android:fontFamily="@font/montserratbold"
                 android:text="@string/order_date_temp"
                 android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toTopOf="@+id/rem_butt"
+                app:layout_constraintBottom_toTopOf="@+id/order_summary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

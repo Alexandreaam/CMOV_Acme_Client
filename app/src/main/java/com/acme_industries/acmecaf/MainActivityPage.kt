@@ -105,7 +105,7 @@ class MainActivityPage : AppCompatActivity() {
             temp += "\nOnly one 5% discount is used!"
         voucherlist.text = temp
 
-        total.text = "Total:${"%.2f€".format(cartModel.cart.totalCost)}"
+        total.text = "Total: ${"%.2f€".format(cartModel.cart.totalCost)}"
 
         //TODO (Add user key)
         val qr = QRBuilder(this)
@@ -119,7 +119,6 @@ class MainActivityPage : AppCompatActivity() {
         val url = Constants.serverUrl + "order"
         val queue = Volley.newRequestQueue(this)
 
-        //TODO (Simplify translation to json array)
         val orderTest = JSONObject()
         orderTest.put("Products",cartModel.cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
         orderTest.put("Vouchers",cartModel.cart.orderVoucherList.map { ("\"" + it.voucher.id + "\":" + it.voucher.type.toString()) }.toString().replace("[", "{").replace("]", "}"))

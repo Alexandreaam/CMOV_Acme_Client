@@ -27,10 +27,12 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         cart = Cart()
         products.clear()
         vouchers.clear()
+        pastOrders.clear()
         userStats = null
         has5disc = false
         updateItemsLiveData()
         updateVoucherLiveData()
+        updateUserLiveData()
     }
 
     fun productMessageParse (response: JSONObject){
@@ -118,8 +120,10 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val vouchers = pastOrder.vouchers
             val date = pastOrder.date
             val total = pastOrder.total
-            UserRecyclerAdapterItem(products, vouchers, date, total, id)
-        }
+            val allProducts = this.products
+            val allVouchers = this.vouchers
+            UserRecyclerAdapterItem(products, vouchers, date, total, id, allProducts, allVouchers)
+        }.reversed()
     }
 
     override fun incrementQuantity(productName: String) {
