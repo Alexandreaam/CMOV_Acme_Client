@@ -13,7 +13,7 @@ import com.google.zxing.common.BitMatrix
 class QRBuilder (var context: Context){
 
     fun encodeAsBitmap(str: String?): Bitmap? {
-        val result = MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, 540, 540, null)
+        val result = MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, 800, 800, null)
         val w: Int = result.width
         val h: Int = result.height
         val pixels = IntArray(w * h)

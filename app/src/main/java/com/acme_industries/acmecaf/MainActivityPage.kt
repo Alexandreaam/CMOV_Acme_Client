@@ -118,7 +118,6 @@ class MainActivityPage : AppCompatActivity() {
         val url = Constants.serverUrl + "order"
         val queue = Volley.newRequestQueue(this)
 
-
         //TODO (Simplify translation to json array)
         val orderTest = JSONObject()
         orderTest.put("Products",cartModel.cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
