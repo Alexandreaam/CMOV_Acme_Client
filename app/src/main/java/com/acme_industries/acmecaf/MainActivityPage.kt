@@ -59,7 +59,6 @@ class MainActivityPage : AppCompatActivity() {
             cartModel.reset()
             reload()
         }
-        findViewById<FloatingActionButton>(R.id.refresh_button).visibility = View.INVISIBLE
 
         cartModel.itemsLiveData.observe(this) {
             if(cartModel.cart.orderList.isEmpty())
@@ -123,6 +122,5 @@ class MainActivityPage : AppCompatActivity() {
         queue.add(jsonObjectRequest)
 */
         findViewById<Button>(R.id.checkout_button).visibility = View.INVISIBLE
-        findViewById<FloatingActionButton>(R.id.refresh_button).visibility = View.VISIBLE
     }
 }
