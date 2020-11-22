@@ -39,7 +39,7 @@ class UserRecyclerAdapter() : RecyclerView.Adapter<UserRecyclerAdapter.ViewHolde
 
             while (keys.hasNext()) {
                 val key = keys.next()
-                tempOrderSummary += pastOrder.allProducts[parseInt(key)].title + " x " + productsJS.get(key).toString() + "\n"
+                tempOrderSummary += pastOrder.allProducts[parseInt(key)-1].title + " x " + productsJS.get(key).toString() + "\n"
             }
 
             var tempVoucherSummary = ""
