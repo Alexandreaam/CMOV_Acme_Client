@@ -52,4 +52,6 @@
     <string name="total_spent_count">Total Spent</string>
     <string name="coffee_until_discount">For next voucher</string>
     <string name="money_until_discount">For next voucher</string>
+    <string name="order_date_temp">xx:xx  xx-xx-xxxx</string>
+    <string name="get_orders_button">Get Previous Orders</string>
 </resources>

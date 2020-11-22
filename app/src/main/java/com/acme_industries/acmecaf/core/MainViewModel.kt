@@ -1,22 +1,26 @@
 package com.acme_industries.acmecaf.core
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapter
 import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapterItem
+import com.acme_industries.acmecaf.ui.user.UserRecyclerAdapter
+import com.acme_industries.acmecaf.ui.user.UserRecyclerAdapterItem
 import com.acme_industries.acmecaf.ui.vouchers.VoucherRecyclerAdapter
 import com.acme_industries.acmecaf.ui.vouchers.VoucherRecyclerAdapterItem
 import org.json.JSONObject
 
-class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  VoucherRecyclerAdapter.VoucherClickListener {
+class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  VoucherRecyclerAdapter.VoucherClickListener,  UserRecyclerAdapter.UserClickListener {
 
     var cart = Cart()
     private var products = ArrayList<Product>()
     private var vouchers = ArrayList<Voucher>()
+    private var pastOrders = ArrayList<PastOrder>()
     var userStats: UserStats? = null
     var itemsLiveData = MutableLiveData<List<OrdersRecyclerAdapterItem>>()
     var vouchersLiveData = MutableLiveData<List<VoucherRecyclerAdapterItem>>()
+    var pastOrdersLiveData = MutableLiveData<List<UserRecyclerAdapterItem>>()
+
     var has5disc = false
 
     fun reset() {
@@ -31,7 +35,6 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
 
     fun productMessageParse (response: JSONObject){
         val prodList = response.getJSONArray("Products")
-        println(prodList)
         this.products.clear()
         for (it in 0 until prodList.length()){
             val prod = prodList.getJSONObject(it)
@@ -46,7 +49,6 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         updateItemsLiveData()
 
         val vouchList = response.getJSONArray("Vouchers")
-        println(prodList)
         this.vouchers.clear()
         for (it in 0 until vouchList.length()){
             val vouch = vouchList.getJSONObject(it)
@@ -61,7 +63,6 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         updateVoucherLiveData()
 
         val dataList = response.getJSONArray("Userdata")
-        println(prodList)
         this.userStats = null
         for (it in 0 until dataList.length()){
             val data = dataList.getJSONObject(it)
@@ -70,6 +71,21 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
                 data.getInt("tempcoffeecount"),
                 data.getDouble("tempspendings"))
         }
+
+        val pastOrderList = response.getJSONArray("Pastorders")
+        this.pastOrders.clear()
+        for (it in 0 until pastOrderList.length()){
+            val pastOrder = pastOrderList.getJSONObject(it)
+            this.pastOrders.add(
+                PastOrder(pastOrder.getInt("orderid"),
+                    pastOrder.getString("products"),
+                    pastOrder.getString("vouchers"),
+                    pastOrder.getString("date"),
+                    pastOrder.getDouble("total"))
+            )
+        }
+        updateUserLiveData()
+
     }
 
     private fun items(): List<OrdersRecyclerAdapterItem> {
@@ -92,6 +108,17 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val type = voucher.type
             val use = cart.orderVoucherList.find { it.voucher.id == voucher.id }?.use ?: false
             VoucherRecyclerAdapterItem(id, title, details, image, use, type)
+        }
+    }
+
+    private fun user(): List<UserRecyclerAdapterItem> {
+        return pastOrders.map { pastOrder ->
+            val id = pastOrder.id
+            val products = pastOrder.products
+            val vouchers = pastOrder.vouchers
+            val date = pastOrder.date
+            val total = pastOrder.total
+            UserRecyclerAdapterItem(products, vouchers, date, total, id)
         }
     }
 
@@ -122,9 +149,12 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         vouchersLiveData.postValue(vouchers())
     }
 
+    private fun updateUserLiveData() {
+        pastOrdersLiveData.postValue(user())
+    }
+
     fun getFormatedData(userid: String): String {
 
-        //TODO Simplify order data, too much unnecessary info for order
         val data = JSONObject()
         data.put("Products",cart.orderList.map { ("\"" + it.product.id.toString() + "\":" + it.quantity.toString()) }.toString().replace("[", "{").replace("]", "}"))
         data.put("Vouchers",cart.orderVoucherList.map { ("\"" + it.voucher.id + "\":" + it.voucher.type.toString()) }.toString().replace("[", "{").replace("]", "}"))
@@ -143,5 +173,9 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         }
         has5disc = cart.orderVoucherList.any { !it.voucher.type }
         updateVoucherLiveData()
+    }
+
+    override fun deletePastOrder(orderId: Int) {
+        updateUserLiveData()
     }
 }
