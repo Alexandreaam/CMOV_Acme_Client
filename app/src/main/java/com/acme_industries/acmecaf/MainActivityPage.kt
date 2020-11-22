@@ -100,7 +100,7 @@ class MainActivityPage : AppCompatActivity() {
 
         dialog.show()
 
-
+/*
         val url = Constants.serverUrl + "order"
         val queue = Volley.newRequestQueue(this)
 
@@ -121,7 +121,7 @@ class MainActivityPage : AppCompatActivity() {
                 println("That didn't work: ${error.message}")
             })
         queue.add(jsonObjectRequest)
-
+*/
         findViewById<Button>(R.id.checkout_button).visibility = View.INVISIBLE
         findViewById<FloatingActionButton>(R.id.refresh_button).visibility = View.VISIBLE
     }
