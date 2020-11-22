@@ -1,5 +1,6 @@
 package com.acme_industries.acmecaf.ui.user
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ class UserRecyclerAdapter() : RecyclerView.Adapter<UserRecyclerAdapter.ViewHolde
     var pastOrders: List<UserRecyclerAdapterItem> = emptyList()
 
     interface UserClickListener {
-        fun deletePastOrder(orderId: Int)
+        fun deletePastOrder(orderId: Int, context: Context)
     }
 
     var userClickListener: UserClickListener? = null
@@ -63,7 +64,7 @@ class UserRecyclerAdapter() : RecyclerView.Adapter<UserRecyclerAdapter.ViewHolde
             val orderRemove: ImageView = itemView.findViewById(R.id.rem_butt)
 
             orderRemove.setOnClickListener {
-                userClickListener?.deletePastOrder(pastOrder.id)
+                userClickListener?.deletePastOrder(pastOrder.id, itemView.context)
             }
 
         }

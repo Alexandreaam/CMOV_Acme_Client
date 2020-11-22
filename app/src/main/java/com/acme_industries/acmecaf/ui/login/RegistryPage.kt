@@ -20,7 +20,6 @@ import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_register_data.*
 import org.json.JSONObject
 import java.math.BigInteger
-import java.nio.charset.Charset
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.KeyStore
@@ -30,6 +29,10 @@ import javax.security.auth.x500.X500Principal
 
 
 class RegistryPage : AppCompatActivity() {
+
+    val BEGIN_CERT = "-----BEGIN CERTIFICATE-----"
+    val END_CERT = "-----END CERTIFICATE-----"
+    val LINE_SEPARATOR = System.getProperty("line.separator")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,40 +92,44 @@ class RegistryPage : AppCompatActivity() {
         }
     }
 
-    private fun createUser(username: String, password: String, realName: String, creditDebit: String, nif: String) {
+    private fun createUser(
+        username: String,
+        password: String,
+        realName: String,
+        creditDebit: String,
+        nif: String
+    ) {
 
         val uuid = UUID.randomUUID()
 
         val url = serverUrl + "users"
         val registerMessage = JSONObject()
-        registerMessage.put("userid", uuid)
         registerMessage.put("username", username)
         registerMessage.put("password", password)
         registerMessage.put("fullname", realName)
         registerMessage.put("creditcard", creditDebit)
         registerMessage.put("nif", nif)
+        registerMessage.put("payload", genCertificate())
 
         val queue = Volley.newRequestQueue(this)
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, registerMessage,
-                { response ->
-                    println("Response is: $response")
+            { response ->
+                println("Response is: $response")
 
-                    if (response.has("usernameTaken") && response.get("usernameTaken") == "True") {
-                        editTextUser2.error = "Username already taken!"
-                    } else if (response.has("username") && (response.get("username") == username)) {
-                        // TODO(Fix the certificates)
-                        //sendCertificate()
-                        val intent = Intent(this, MainActivityPage::class.java).apply {
-                            putExtra("userid", response.get("userid").toString())
-                        }
-                        startActivity(intent)
+                if (response.has("usernameTaken") && response.get("usernameTaken") == "True") {
+                    editTextUser2.error = "Username already taken!"
+                } else if (response.has("username") && (response.get("username") == username)) {
+                    val intent = Intent(this, MainActivityPage::class.java).apply {
+                        putExtra("userid", response.get("userid").toString())
                     }
-                },
-                { error ->
-                    println("That didn't work: $error")
-                    Toast.makeText(this, R.string.server_error, Toast.LENGTH_LONG).show()
-                })
+                    startActivity(intent)
+                }
+            },
+            { error ->
+                println("That didn't work: $error")
+                Toast.makeText(this, R.string.server_error, Toast.LENGTH_LONG).show()
+            })
 
         queue.add(jsonObjectRequest)
     }
@@ -135,12 +142,12 @@ class RegistryPage : AppCompatActivity() {
         val keyAlias = "keyPair"
 
         val kpg: KeyPairGenerator = KeyPairGenerator.getInstance(
-                KeyProperties.KEY_ALGORITHM_RSA,
-                "AndroidKeyStore"
+            KeyProperties.KEY_ALGORITHM_RSA,
+            "AndroidKeyStore"
         )
         val parameterSpec: KeyGenParameterSpec = KeyGenParameterSpec.Builder(
-                keyAlias,
-                KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
+            keyAlias,
+            KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
         ).run {
             setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
             setCertificateNotBefore(start.time)
@@ -156,12 +163,13 @@ class RegistryPage : AppCompatActivity() {
         return kpg.generateKeyPair()
     }
 
-    private fun sendCertificate(){
+    private fun genCertificate(): String {
         val kp = keyGen()
 
         if(kp == null) {
             println("Error making certificate")
             Toast.makeText(this, R.string.server_error, Toast.LENGTH_LONG).show()
+            return ""
         }
 
         else {
@@ -178,32 +186,9 @@ class RegistryPage : AppCompatActivity() {
             val entry: KeyStore.Entry = ks.getEntry("keyPair", null)
 
             cert = (entry as KeyStore.PrivateKeyEntry).certificate as X509Certificate
-            val b64Cert: String = Base64.encodeToString(cert.encoded, Base64.NO_WRAP) // transform into Base64 string (PEM format without the header and footer)
+            var b64Cert: String = Base64.encodeToString(cert.encoded, Base64.NO_WRAP) // transform into Base64 string (PEM format without the header and footer)
 
-            val payload = JSONObject.quote(b64Cert) // JSON requires enclosing quotes
-
-            certificateMessage.put("payload", payload.toByteArray(Charset.forName("ISO-8859-1")))
-
-            //TODO Send Certificate and store it
-            /*
-            val queue = Volley.newRequestQueue(this)
-
-            val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, certificateMessage,
-                    { response ->
-                        println("Response is: $response")
-                        val intent = Intent(this, MainActivityPage::class.java).apply { }
-                        startActivity(intent)
-                    },
-                    { error ->
-                        println("That didn't work: $error")
-                        Toast.makeText(this, R.string.server_error, Toast.LENGTH_LONG).show()
-                    })
-
-            queue.add(jsonObjectRequest)
-            */
-            val intent = Intent(this, MainActivityPage::class.java).apply {}
-            startActivity(intent)
-
+            return BEGIN_CERT + LINE_SEPARATOR + b64Cert + LINE_SEPARATOR + END_CERT
         }
     }
 }

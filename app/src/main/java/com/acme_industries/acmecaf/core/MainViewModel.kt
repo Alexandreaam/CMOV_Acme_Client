@@ -1,5 +1,6 @@
 package com.acme_industries.acmecaf.core
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapter
@@ -8,6 +9,9 @@ import com.acme_industries.acmecaf.ui.user.UserRecyclerAdapter
 import com.acme_industries.acmecaf.ui.user.UserRecyclerAdapterItem
 import com.acme_industries.acmecaf.ui.vouchers.VoucherRecyclerAdapter
 import com.acme_industries.acmecaf.ui.vouchers.VoucherRecyclerAdapterItem
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 
 class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  VoucherRecyclerAdapter.VoucherClickListener,  UserRecyclerAdapter.UserClickListener {
@@ -33,6 +37,25 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         updateItemsLiveData()
         updateVoucherLiveData()
         updateUserLiveData()
+    }
+
+    fun loadData(userid: String, context: Context) {
+        val menuRequest = JSONObject()
+        menuRequest.put("userid", userid)
+
+        val url = Constants.serverUrl + "menu"
+
+        val queue = Volley.newRequestQueue(context)
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, menuRequest ,
+            { response ->
+                println("Response is: $response")
+                this.productMessageParse(response)
+            },
+            { error ->
+                println("That didn't work: $error")
+            })
+        queue.add(jsonObjectRequest)
     }
 
     fun productMessageParse (response: JSONObject){
@@ -179,7 +202,21 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
         updateVoucherLiveData()
     }
 
-    override fun deletePastOrder(orderId: Int) {
+    override fun deletePastOrder(orderId: Int, context: Context) {
+        val deleteRequest = JSONObject()
+        deleteRequest.put("orderid", orderId)
+        val url = Constants.serverUrl + "order/delete"
+
+        val queue = Volley.newRequestQueue(context)
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, deleteRequest ,
+            { response ->
+                println("Response is: $response")
+            },
+            { error ->
+                println("That didn't work: $error")
+            })
+        queue.add(jsonObjectRequest)
         updateUserLiveData()
     }
 }

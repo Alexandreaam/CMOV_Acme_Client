@@ -52,22 +52,7 @@ class MainActivityPage : AppCompatActivity() {
     fun reload() {
         userid = intent.getStringExtra("userid").toString()
 
-        val menuRequest = JSONObject()
-        menuRequest.put("userid", userid)
-
-        val url = Constants.serverUrl + "menu"
-
-        val queue = Volley.newRequestQueue(this)
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, url, menuRequest ,
-            { response ->
-                println("Response is: $response")
-                cartModel.productMessageParse(response)
-            },
-            { error ->
-                println("That didn't work: $error")
-            })
-        queue.add(jsonObjectRequest)
+        cartModel.loadData(userid, this.application.applicationContext)
 
         findViewById<Button>(R.id.checkout_button).setOnClickListener { checkout() }
         findViewById<FloatingActionButton>(R.id.refresh_button).setOnClickListener {
@@ -83,6 +68,7 @@ class MainActivityPage : AppCompatActivity() {
                 findViewById<Button>(R.id.checkout_button).visibility = View.VISIBLE
         }
         cartModel.vouchersLiveData.observe(this) { }
+        cartModel.pastOrdersLiveData.observe(this) {  }
 
     }
 
