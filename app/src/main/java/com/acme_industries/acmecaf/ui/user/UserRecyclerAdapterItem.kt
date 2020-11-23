@@ -10,5 +10,6 @@ class UserRecyclerAdapterItem(
     val total: Double,
     val id: Int,
     val allProducts: ArrayList<Product>,
-    val allVouchers: ArrayList<Voucher>
+    val allVouchers: ArrayList<Voucher>,
+    val deleted: Boolean
 )

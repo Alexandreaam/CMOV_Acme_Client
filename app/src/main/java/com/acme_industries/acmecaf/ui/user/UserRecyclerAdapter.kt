@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.acme_industries.acmecaf.R
 import org.json.JSONObject
@@ -54,7 +56,9 @@ class UserRecyclerAdapter() : RecyclerView.Adapter<UserRecyclerAdapter.ViewHolde
                 else if(vouchersJS.get(key).toString() == "false")
                     tempVoucherSummary += "5% Discount Voucher\n"
             }
-
+            if (pastOrder.deleted){
+                itemView.findViewById<CardView>(R.id.card).visibility = View.GONE
+            }
             orderNumber.text = "Order #" + pastOrder.id.toString()
             orderTotal.text = "%.2f€".format(pastOrder.total)
             orderSummary.text = tempOrderSummary + "\n" + tempVoucherSummary

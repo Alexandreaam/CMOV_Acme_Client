@@ -3,6 +3,7 @@ package com.acme_industries.acmecaf.core
 class Cart {
     val orderList: ArrayList<Order> = ArrayList()
     val orderVoucherList: ArrayList<OrderVoucher> = ArrayList()
+    val pastOrderList: ArrayList<OrderDeleted> = ArrayList()
     val totalCostDiscounted: Double
         get(){
             var disc = 0
@@ -37,6 +38,13 @@ class Cart {
     }
     fun removeOrder (order: Order) {
         orderList.remove(order)
+    }
+
+    fun addPastOrder (order : OrderDeleted) {
+        pastOrderList.add(order)
+    }
+    fun removePastOrder (order: OrderDeleted) {
+        pastOrderList.remove(order)
     }
 
     fun addVoucher(voucher: OrderVoucher) {

@@ -1,6 +1,7 @@
 package com.acme_industries.acmecaf.core
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.acme_industries.acmecaf.ui.home.OrdersRecyclerAdapter
@@ -145,7 +146,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
             val total = pastOrder.total
             val allProducts = this.products
             val allVouchers = this.vouchers
-            UserRecyclerAdapterItem(products, vouchers, date, total, id, allProducts, allVouchers)
+            val deleted = cart.pastOrderList.find { it.pastOrder.id == pastOrder.id }?.deleted ?: false
+            UserRecyclerAdapterItem(products, vouchers, date, total, id, allProducts, allVouchers, deleted)
         }.reversed()
     }
 
@@ -204,6 +206,8 @@ class MainViewModel : ViewModel(), OrdersRecyclerAdapter.ItemClickListener,  Vou
     }
 
     override fun deletePastOrder(orderId: Int, context: Context) {
+
+        cart.addPastOrder(OrderDeleted(pastOrders.first { it.id == orderId }, true))
         val deleteRequest = JSONObject()
         deleteRequest.put("orderid", orderId)
         val url = Constants.serverUrl + "order/delete"
